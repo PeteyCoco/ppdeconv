@@ -13,8 +13,8 @@
 sim_hpp <- function(rate = 1, min = 0, max = 1){
 
   width = max - min
-  y <- rpois(1, lambda = rate*width)
-  result <- runif(y, min=min, max = max)
+  y <- stats::rpois(1, lambda = rate*width)
+  result <- stats::runif(y, min=min, max = max)
 
   return(result)
 }
