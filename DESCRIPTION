@@ -14,3 +14,5 @@ Suggests:
 Config/testthat/edition: 3
 Imports:
   assertthat
+URL: https://github.com/PeteyCoco/ppdeconv
+BugReports: https://github.com/PeteyCoco/ppdeconv/issues
