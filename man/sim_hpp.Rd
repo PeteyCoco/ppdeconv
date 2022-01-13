@@ -4,10 +4,10 @@
 \alias{sim_hpp}
 \title{Simulate realization from a homogeneous Poisson process}
 \usage{
-sim_hpp(rate = 1, min = 0, max = 1)
+sim_hpp(rate, min, max)
 }
 \arguments{
-\item{rate}{scalar giving the rate parameter of the process}
+\item{rate}{nonnegative number giving the rate parameter of the process}
 
 \item{min}{lower limit of the observation interval}
 
@@ -20,6 +20,6 @@ a vector containing the points of the realization within the given observation i
 Simulate realization from a homogeneous Poisson process
 }
 \examples{
-# A realization from a Poisson process with rate 10 over the unit interval [0,1]
+# A realization from a Poisson process with rate 10 observed over the unit interval [0,1]
 y <- sim_hpp(rate = 10, min = 0, max = 1)
 }
