@@ -2,7 +2,7 @@
 % Please edit documentation in R/example_P.R
 \name{example_P}
 \alias{example_P}
-\title{Title}
+\title{P matrix for half-normal example}
 \usage{
 example_P(l_breaks, r_breaks, sd, n_quad = 100)
 }
@@ -19,10 +19,10 @@ example_P(l_breaks, r_breaks, sd, n_quad = 100)
 the n x m matrix P of transition probabilities
 }
 \description{
-Title
+P matrix for half-normal example
 }
 \examples{
-# Compute P for halfnormal with sd = 2
+# Compute P for half-normal measurement error with sd = 2
 # The latent interval L = [0,10] is divided into 20 intervals of length 0.5
 # The observed interval R = [0,15] is divided into 15 intervals of length 1.
 l_breaks <- seq(0,10, length.out = 21)
