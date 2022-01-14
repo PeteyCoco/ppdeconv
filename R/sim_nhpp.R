@@ -21,7 +21,7 @@ sim_nhpp <- function(lambda, min, max, M = NULL){
                           max > min)
 
   if(is.null(M)){
-    M <- stats::optimize(f = lambda, lower = min, upper = max, maximum = TRUE)$objective
+    M <- stats::optimize(f = lambda, lower = min, upper = max, maximum = TRUE)[["objective"]]
     M <- M *(1.01) # Ensure that M is an upper bound of lambda
   }
   assertthat::assert_that(M > 0,

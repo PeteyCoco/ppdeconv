@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_hpp.R
 \name{sim_hpp}
 \alias{sim_hpp}
-\title{Simulate a realization from a homogeneous Poisson process on the real line.}
+\title{Simulate homogeneous Poisson process on the real line.}
 \usage{
 sim_hpp(rate, min, max)
 }
@@ -17,7 +17,7 @@ sim_hpp(rate, min, max)
 a vector containing the points of the realization within the given observation interval
 }
 \description{
-Simulate a realization from a homogeneous Poisson process on the real line.
+Simulate homogeneous Poisson process on the real line.
 }
 \examples{
 # A realization from a Poisson process with rate 10 observed over the unit interval [0,1]
