@@ -1,3 +1,20 @@
+#' Title
+#'
+#' @param l_breaks a (m+1) vector defining a partition of the interval L into m sets
+#' @param r_breaks a (n+1) vector defining a partition of the interval R into n sets
+#' @param sd the standard deviation of the half-normal distribution
+#' @param n_quad the number of quadrature points for integration over interval L
+#'
+#' @return the n x m matrix P of transition probabilities
+#' @export
+#'
+#' @examples
+#' # Compute P for halfnormal with sd = 2
+#' # The latent interval L = [0,10] is divided into 20 intervals of length 0.5
+#' # The observed interval R = [0,15] is divided into 15 intervals of length 1.
+#' l_breaks <- seq(0,10, length.out = 21)
+#' r_breaks <- seq(0,15, length.out = 16)
+#' P <- example_P(l_breaks, r_breaks, sd = 2, n_quad = 100)
 example_P <- function(l_breaks, r_breaks, sd, n_quad = 100){
 
   assertthat::assert_that(is.vector(l_breaks, mode = "numeric"),
