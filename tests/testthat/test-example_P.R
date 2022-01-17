@@ -19,5 +19,5 @@ test_that("the entries of P are positive", {
                        r_breaks = seq(0,20, length.out = 21),
                        sd = 1,
                        n_quad = 100) >= 0),
-         failure_message = "Some entries of P are negative.")
+         failure_message = "Some entries of P are negative")
 })

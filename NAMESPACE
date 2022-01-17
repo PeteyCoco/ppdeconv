@@ -2,7 +2,7 @@
 
 export(example_P)
 export(get_midpoints)
-export(lddot)
+export(hessian)
 export(ldot)
 export(sim_hpp)
 export(sim_nhpp)
