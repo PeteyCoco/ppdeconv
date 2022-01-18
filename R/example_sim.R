@@ -20,39 +20,46 @@ example_lambda <- function(x, height){
     height*(0.6*stats::dnorm(x, mean = 30, sd = 10) +
               0.4*stats::dnorm(x, mean = 70, sd = 10))
   }
-#
-# example_sim <- function(obs_min = 0, obs_max = 100, sd = 10, M = 600, seed = NULL){
-#
-#   if(!is.null(seed)){
-#     set.seed(seed)
-#   }
-#
-#   sample <- sim_nhpp(function(x) example_lambda(x, height=25000), M = M, from = obs_min, to = obs_max)
-#
-#   noise <- abs(rnorm(length(sample), mean = 0, sd = sd))
-#
-#   obs <- sample + noise
-#
-#   obs <- obs[(obs > obs_min) & (obs <= obs_max)]
-#
-#   set.seed(Sys.time())
-#
-#   l_breaks <- seq(from = obs_min, to = obs_max, by = 1)
-#   r_breaks <- seq(from = obs_min, to = obs_max, by = 1)
-#
-#   l_grid <- get_midpoints(l_breaks)
-#   r_grid <- get_midpoints(r_breaks)
-#
-#   y <- table(cut(obs, breaks = r_breaks, include.lowest = TRUE))
-#   y <- as.integer(y)
-#
-#   P <- example_P(l_breaks, r_breaks, width = 0.1, sd = sd)
-#
-#   return(list(y = y,
-#               P = P,
-#               l_breaks = l_breaks,
-#               r_breaks = r_breaks,
-#               l_grid = l_grid,
-#               r_grid = r_grid,
-#               truth = example_lambda(l_grid, height=25000)))
-# }
+
+example_sim <- function(l_min, l_max, l_wd, r_min, r_max, r_wd, sd, height, n_quad = 5, M = NULL, seed = NULL){
+
+  assertthat::assert_that(l_min < l_max,
+                          r_min < r_max,
+                          sd >= 0,
+                          n_quad > 0,
+                          height >= 0,
+                          l_wd > 0,
+                          r_wd > 0)
+  if(!is.null(seed)){
+    set.seed(seed)
+  }
+
+  sample <- sim_nhpp(function(x) example_lambda(x, height), M = M, min = l_min, max = l_max)
+
+  noise <- abs(stats::rnorm(length(sample), mean = 0, sd = sd))
+
+  obs <- sample + noise
+
+  obs <- obs[(obs > r_min) & (obs <= r_max)]
+
+  set.seed(Sys.time())
+
+  l_breaks <- seq(from = l_min, to = l_max, by = l_wd)
+  r_breaks <- seq(from = r_min, to = r_max, by = r_wd)
+
+  l_grid <- get_midpoints(l_breaks)
+  r_grid <- get_midpoints(r_breaks)
+
+  y <- table(cut(obs, breaks = r_breaks, include.lowest = TRUE))
+  y <- as.integer(y)
+
+  P <- example_P(l_breaks = l_breaks, r_breaks = r_breaks, n_quad = n_quad, sd = sd)
+
+  return(list(y = y,
+              P = P,
+              l_breaks = l_breaks,
+              r_breaks = r_breaks,
+              l_grid = l_grid,
+              r_grid = r_grid,
+              truth = example_lambda(l_grid, height)))
+}
