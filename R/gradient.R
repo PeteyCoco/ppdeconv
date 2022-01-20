@@ -8,6 +8,7 @@
 #' @param c0 the smoothness parameter
 #'
 #' @return the p-dimensional gradient of the unpenalized log-likelihood with respect to the parameter `a`
+#' @import Matrix
 #' @export
 ldot <- function(a, y, Q, P, S, c0){
 
