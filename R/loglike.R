@@ -22,8 +22,8 @@ loglik <- function(a, y, Q, P, S, c0 ){
   ra <- as.vector(P %*% la)
 
   li <- y * log(ra) - ra
-  Ja <- 0.5*c0 * t(a) %*% S %*% a
+  Ja <- 0.5* t(a) %*% (c0 * S) %*% a
   ll <- sum(li) - Ja
 
-  return(ll)
+  return(as.numeric(ll))
 }

@@ -27,7 +27,7 @@ ldot <- function(a, y, Q, P, S, c0){
   return(rowSums(ldot_i))
 }
 
-#' Title
+#' The gradient of the penalty term
 #'
 #' @param a the p-dimensional parameter vector
 #' @param y the n-dimensional data vector of counts
@@ -41,7 +41,7 @@ ldot <- function(a, y, Q, P, S, c0){
 #'
 #' @examples #TODO
 sdot <- function(a, y, Q, P, S, c0){
-  return(c0 * (S %*% a))
+  return((c0 * S) %*% a)
 }
 
 #' Compute gradient of the penalized log-likelihood
@@ -61,7 +61,7 @@ gradient <- function(a, y, Q, P, S, c0){
 
   result <- ldot(a, y, Q, P, S, c0) - sdot(a, y, Q, P, S, c0)
 
-  return(result)
+  return(as.numeric(result))
 }
 
 #' The Hessian of the unpenalized log-likelihood
