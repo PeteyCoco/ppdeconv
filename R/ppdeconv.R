@@ -1,3 +1,14 @@
+#' Title
+#'
+#' @param a0 an initial estimate for the parameter
+#' @param data a list containing the data for `pdeconv`. See details.
+#' @param mode a string indicating what type of inference to perform.
+#'
+#' @return a model fit object
+#' @export
+#'
+#' @examples
+#' # TODO
 ppdeconv <- function(a0 = NULL, data, mode = "mle"){
 
   # Default fit NULL is returned in case of error
@@ -27,10 +38,4 @@ ppdeconv <- function(a0 = NULL, data, mode = "mle"){
   }
 
   return(fit)
-}
-
-objective <- function(p, data){
-
-
-
 }

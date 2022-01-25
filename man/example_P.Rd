@@ -4,7 +4,7 @@
 \alias{example_P}
 \title{P matrix for half-normal example}
 \usage{
-example_P(l_breaks, r_breaks, sd, n_quad)
+example_P(l_breaks, r_breaks, sd)
 }
 \arguments{
 \item{l_breaks}{a (m+1) vector defining a partition of the interval L into m sets}
@@ -12,8 +12,6 @@ example_P(l_breaks, r_breaks, sd, n_quad)
 \item{r_breaks}{a (n+1) vector defining a partition of the interval R into n sets}
 
 \item{sd}{the standard deviation of the half-normal distribution}
-
-\item{n_quad}{the number of quadrature points within the smallest bin of the partition of L}
 }
 \value{
 the n x m matrix P of transition probabilities
@@ -27,5 +25,5 @@ P matrix for half-normal example
 # The observed interval R = [0,15] is divided into 15 intervals of length 1.
 l_breaks <- seq(0,10, length.out = 21)
 r_breaks <- seq(0,15, length.out = 16)
-P <- example_P(l_breaks, r_breaks, sd = 2, n_quad = 5)
+P <- example_P(l_breaks, r_breaks, sd = 2)
 }
