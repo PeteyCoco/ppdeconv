@@ -21,12 +21,11 @@ example_lambda <- function(x, height){
               0.4*stats::dnorm(x, mean = 70, sd = 10))
   }
 
-example_sim <- function(l_min, l_max, l_wd, r_min, r_max, r_wd, sd, height, n_quad = 5, M = NULL, seed = NULL){
+example_sim <- function(l_min, l_max, l_wd, r_min, r_max, r_wd, sd, height, M = NULL, seed = NULL){
 
   assertthat::assert_that(l_min < l_max,
                           r_min < r_max,
                           sd >= 0,
-                          n_quad > 0,
                           height >= 0,
                           l_wd > 0,
                           r_wd > 0)
@@ -53,7 +52,7 @@ example_sim <- function(l_min, l_max, l_wd, r_min, r_max, r_wd, sd, height, n_qu
   y <- table(cut(obs, breaks = r_breaks, include.lowest = TRUE))
   y <- as.integer(y)
 
-  P <- example_P(l_breaks = l_breaks, r_breaks = r_breaks, n_quad = n_quad, sd = sd)
+  P <- example_P(l_breaks = l_breaks, r_breaks = r_breaks, sd = sd)
 
   return(list(y = y,
               P = P,

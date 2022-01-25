@@ -12,7 +12,7 @@ test_that("output dimensions are correct", {
 
   result <- example_sim(l_min = l_min, l_max = l_max, l_wd = l_wd,
                         r_min = r_min, r_max = r_max, r_wd = r_wd,
-                        height = height, n_quad = 5, sd = sd, M = M)
+                        height = height, sd = sd, M = M)
 
   expect_equal( length(result$y), 100)
   expect_equal( dim(result$P), c(100, 200))
@@ -37,7 +37,7 @@ test_that("example_P works when M = NULL", {
 
   result <- example_sim(l_min = l_min, l_max = l_max, l_wd = l_wd,
                         r_min = r_min, r_max = r_max, r_wd = r_wd,
-                        height = height, n_quad = 5, sd = sd, M = M)
+                        height = height, sd = sd, M = M)
 
   expect_equal( length(result$y), 100)
   expect_equal( dim(result$P), c(100, 200))
