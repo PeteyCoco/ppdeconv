@@ -21,7 +21,7 @@ example_lambda <- function(x, height){
               0.4*stats::dnorm(x, mean = 70, sd = 10))
   }
 
-example_sim <- function(l_min, l_max, l_wd, r_min, r_max, r_wd, sd, height, M = NULL, seed = NULL){
+example_sim <- function(l_min, l_max, l_wd, r_min, r_max, r_wd, sd, df, height, M = NULL, seed = NULL){
 
   assertthat::assert_that(l_min < l_max,
                           r_min < r_max,
@@ -49,16 +49,27 @@ example_sim <- function(l_min, l_max, l_wd, r_min, r_max, r_wd, sd, height, M = 
   l_grid <- get_midpoints(l_breaks)
   r_grid <- get_midpoints(r_breaks)
 
-  y <- table(cut(obs, breaks = r_breaks, include.lowest = TRUE))
-  y <- as.integer(y)
+  N <- table(cut(obs, breaks = r_breaks, include.lowest = TRUE))
+  N <- as.integer(N)
+
+  # Setup model
+  smooth <- mgcv::smoothCon(mgcv::s(l_grid, k = df, bs = "ps", m = c(2,3)),
+                            data = data.frame(l_grid = l_grid))
+  Q <- smooth[[1]]$X
+  S <- smooth[[1]]$S[[1]]
+  c0 <- 1
 
   P <- example_P(l_breaks = l_breaks, r_breaks = r_breaks, sd = sd)
+  P_fn <- function() P
 
-  return(list(y = y,
-              P = P,
-              l_breaks = l_breaks,
-              r_breaks = r_breaks,
-              l_grid = l_grid,
-              r_grid = r_grid,
-              truth = example_lambda(l_grid, height)))
+  return(new_ppdeconvFix(N = N,
+                         Q = Q,
+                         P_fn = P_fn,
+                         S = S,
+                         c0 = c0,
+                         l_breaks = l_breaks,
+                         r_breaks = r_breaks,
+                         l_grid = l_grid,
+                         r_grid = r_grid,
+                         ))
 }
