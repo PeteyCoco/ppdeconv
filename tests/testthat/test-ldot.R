@@ -1,6 +1,6 @@
 test_that("dimension of gradient functions are correct", {
 
-    example <- example_sim(l_min = 0, l_max = 100, l_wd = 0.5,
+  example <- example_sim(l_min = 0, l_max = 100, l_wd = 0.5,
                          r_min = 0, r_max = 100, r_wd = 1,
                          sd = 10, height = 1000, M = NULL, seed = 235)
 
