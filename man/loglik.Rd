@@ -2,31 +2,19 @@
 % Please edit documentation in R/loglike.R
 \name{loglik}
 \alias{loglik}
-\title{log-likelihood for the ppdeconv model}
+\title{log-likelihood for \code{ppdeconv} object}
 \usage{
-loglik(a, y, Q, P, S, c0)
+loglik(x)
 }
 \arguments{
-\item{a}{the p-vector initial guess for mle}
-
-\item{y}{the n observed cell counts}
-
-\item{Q}{the m x p structure matrix}
-
-\item{P}{the n x m transition matrix#'}
-
-\item{S}{the p x p penalty matrix}
-
-\item{c0}{the scalar penalty}
+\item{x}{a \code{ppdeconvFix} object}
 }
 \value{
-the penalized log-likelihood
+the log-likelihood of the object
 }
 \description{
-Computes the penalized log-likelihood for the mis-measured point process
-with transition matrix P and latent structure matrix Q as described in
-equations (24) and (25)
+log-likelihood for \code{ppdeconv} object
 }
 \examples{
-# TODO
+#TODO
 }

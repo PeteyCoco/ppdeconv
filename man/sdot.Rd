@@ -2,28 +2,18 @@
 % Please edit documentation in R/derivs.R
 \name{sdot}
 \alias{sdot}
-\title{The gradient of the penalty term}
+\title{gradient of the penalty term}
 \usage{
-sdot(a, y, Q, P, S, c0)
+sdot(x)
 }
 \arguments{
-\item{a}{the p-dimensional parameter vector}
-
-\item{y}{the n-dimensional data vector of counts}
-
-\item{Q}{the m x p structure matrix}
-
-\item{P}{the n x m matrix of transition probabilities}
-
-\item{S}{the p x p penalty matrix}
-
-\item{c0}{the smoothness parameter}
+\item{x}{a \code{ppdeconvFix} or \code{ppdeconvVar} object}
 }
 \value{
-the p-dimensional gradient vector
+the gradient of the penalty term
 }
 \description{
-The gradient of the penalty term
+See documentation of \code{gradient} for details
 }
 \examples{
 #TODO

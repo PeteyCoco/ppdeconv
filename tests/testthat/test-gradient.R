@@ -3,17 +3,7 @@ test_that("gradient functions works in bdiag case", {
   # Simulate data
   example <- example_sim(l_min = 0, l_max = 100, l_wd = 0.5,
                          r_min = 0, r_max = 100, r_wd = 1,
-                         sd = 10, height = 1000, M = NULL, seed = 235)
-
-  # Define model
-  df <- 10
-
-  smooth <- mgcv::smoothCon(mgcv::s(l_grid, k = df, bs = "ps", m = c(2,3)),
-                            data = data.frame(l_grid = example$l_grid))
-  Q <- smooth[[1]]$X
-  S <- smooth[[1]]$S[[1]]
-
-  c0 <- 1
+                         sd = 10, df = 10, height = 1000, M = NULL, seed = 235)
 
   # Stack data into lists
   obs <- list( y = example$y, Q = Q, P = example$P, S = S, c0 = c0)

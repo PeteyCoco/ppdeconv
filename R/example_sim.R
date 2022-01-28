@@ -60,11 +60,10 @@ example_sim <- function(l_min, l_max, l_wd, r_min, r_max, r_wd, sd, df, height, 
   c0 <- 1
 
   P <- example_P(l_breaks = l_breaks, r_breaks = r_breaks, sd = sd)
-  P_fn <- function() P
 
   return(new_ppdeconvFix(N = N,
                          Q = Q,
-                         P_fn = P_fn,
+                         P = P,
                          S = S,
                          c0 = c0,
                          l_breaks = l_breaks,

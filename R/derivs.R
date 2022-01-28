@@ -1,128 +1,248 @@
-#' The gradient of the unpenalized log-likelihood
+#' gradient of log-likelihood
 #'
-#' @param a the p-dimensional parameter vector
-#' @param y the n-dimensional data vector of counts
-#' @param Q the m x p structure matrix
-#' @param P the n x m matrix of transition probabilities
-#' @param S the p x p penalty matrix
-#' @param c0 the smoothness parameter
+#' See documentation of `gradient` for details
 #'
-#' @return the p-dimensional gradient of the unpenalized log-likelihood with respect to the parameter `a`
-#' @import Matrix
+#' @param x a `ppdeconvFix` or `ppdeconvVar` object
+#'
+#' @return the gradient of the log-likelihood
 #' @export
-ldot <- function(a, y, Q, P, S, c0){
+#'
+#' @examples #TODO
+ldot <- function(x){
+  UseMethod("ldot")
+}
 
-  la <- as.vector(exp(Q %*% a))
+#' Title
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples #TODO
+ldot.default <- function(x){
+  stop(paste0("There is no method ldot for objects of the class '", class(x),"'"))
+}
 
-  ra <- as.vector(P %*% la)
+#' `ldot` for fixed P ppdeconv model
+#'
+#' @param x a `ppdeconvFix` object
+#'
+#' @return the gradient of the log-likelihood
+#' @export
+#'
+#' @examples #TODO
+ldot.ppdeconvFix <- function(x){
 
-  Pt <- P/ra
+  la <- as.vector(exp(x$Q %*% x$a))
+
+  ra <- as.vector(x$P %*% la)
+
+  Pt <- x$P/ra
 
   W <- la * t(Pt)
 
-  yra_W <- t((y - ra) * t(W))
+  yra_W <- t((x$N - ra) * t(W))
 
-  ldot_i <- t(Q) %*% yra_W
+  ldot_i <- t(x$Q) %*% yra_W
 
   return(rowSums(ldot_i))
 }
 
-#' The gradient of the penalty term
+#' gradient of the penalty term
 #'
-#' @param a the p-dimensional parameter vector
-#' @param y the n-dimensional data vector of counts
-#' @param Q the m x p structure matrix
-#' @param P the n x m matrix of transition probabilities
-#' @param S the p x p penalty matrix
-#' @param c0 the smoothness parameter
+#' See documentation of `gradient` for details
 #'
-#' @return the p-dimensional gradient vector
+#' @param x a `ppdeconvFix` or `ppdeconvVar` object
+#'
+#' @return the gradient of the penalty term
 #' @export
 #'
 #' @examples #TODO
-sdot <- function(a, y, Q, P, S, c0){
-  return((c0 * S) %*% a)
+sdot <- function(x){
+  UseMethod("sdot")
 }
 
-#' Compute gradient of the penalized log-likelihood
+#' Title
 #'
-#' @param a the p-dimensional parameter vector
-#' @param y the n-dimensional data vector of counts
-#' @param Q the m x p structure matrix
-#' @param P the n x m matrix of transition probabilities
-#' @param S the p x p penalty matrix
-#' @param c0 the smoothness parameter
+#' @param x
 #'
-#' @return the p-dimesional gradient vector
+#' @return
 #' @export
 #'
 #' @examples #TODO
-gradient <- function(a, y, Q, P, S, c0){
+sdot.default <- function(x){
+  stop(paste0("There is no method sdot for objects of the class '", class(x),"'"))
+}
 
-  result <- ldot(a, y, Q, P, S, c0) - sdot(a, y, Q, P, S, c0)
+#' `sdot` for fixed P ppdeconv model
+#'
+#' @param x a `ppdeconvFix` object
+#'
+#' @return
+#' @export
+#'
+#' @examples #TODO
+sdot.ppdeconvFix <- function(x){
+  return((x$c0 * x$S) %*% x$a)
+}
+
+#' gradient for ppdeconv models
+#'
+#' TODO: Add more detail
+#'
+#' @param x a `ppdeconvFix` or `ppdeconvVar` object
+#'
+#' @return the gradient of the penalized log-likelihood
+#' @export
+#'
+#' @examples #TODO
+gradient <- function(x){
+  UseMethod("gradient")
+}
+
+gradient.default <- function(x){
+  stop(paste0("there is no method gradient for objects of the class '", class(x),"'"))
+}
+
+#' gradient for fixed P ppdeconv models
+#'
+#' @param obj a `ppdeconvFix` object
+#'
+#' @return the gradient of the penalized log-likelihood
+#' @export
+#'
+#' @examples #TODO
+gradient.ppdeconvFix <- function(obj){
+
+  result <- ldot(obj) - sdot(obj)
 
   return(as.numeric(result))
 }
 
-#' The Hessian of the unpenalized log-likelihood
+#' Title
 #'
-#' @param a the p-dimensional parameter vector
-#' @param y the n-dimensional data vector of counts
-#' @param Q the m x p structure matrix
-#' @param P the n x m matrix of transition probabilities
-#' @param S the p x p penalty matrix
-#' @param c0 the smoothness parameter
+#' @param x
 #'
-#' @return the p x p Hessian of the unpenalized log-likelihood with respect to the parameter `a`
-lddot <- function(a, y, Q, P, S, c0){
+#' @return
+#' @export
+#'
+#' @examples #TODO
+lddot <- function(x){
+  UseMethod("lddot")
+}
 
-  la <- as.vector(exp(Q %*% a))
+#' Title
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples #TODO
+lddot.default <- function(x){
+  stop(paste0("There is no method lddot for objects of the class '", class(x),"'"))
+}
 
-  ra <- as.vector(P %*% la)
+#' hessian of log-likelihood for `ppdeconvFix`
+#'
+#' @param x a `ppdeconvFix` object
+#'
+#' @return the hessian of the log-likelihood
+#' @export
+#'
+#' @examples #TODO
+lddot.ppdeconvFix <- function(x){
 
-  Pt <- P/ra
+  la <- as.vector(exp(x$Q %*% x$a))
+
+  ra <- as.vector(x$P %*% la)
+
+  Pt <- x$P/ra
 
   W <- la * t(Pt)
 
-  yra_W <- (y - ra) * t(W)
+  yra_W <- (x$N - ra) * t(W)
 
-  WyW <- W %*% (y*t(W))
+  WyW <- W %*% (x$N*t(W))
 
   WyW_diag <- diag(colSums(yra_W)) - WyW
 
-  result <- t(Q) %*% (WyW_diag %*% Q)
+  result <- t(x$Q) %*% (WyW_diag %*% x$Q)
 
   return(result)
 }
-
-#' The Hessian of the penalty term
+#' Title
 #'
-#' @param a the p-dimensional parameter vector
-#' @param y the n-dimensional data vector of counts
-#' @param Q the m x p structure matrix
-#' @param P the n x m matrix of transition probabilities
-#' @param S the p x p penalty matrix
-#' @param c0 the smoothness parameter
+#' @param x
 #'
-#' @return the Hessian of the penalty term
-sddot <- function(a, y, Q, P, S, c0){
-  return(c0 * S)
+#' @return
+#' @export
+#'
+#' @examples #TODO
+sddot <- function(x){
+  UseMethod("sddot")
 }
 
-#' The hessian matrix of the penalized log-likelihood
+#' Title
 #'
-#' @param a the p-dimensional parameter vector
-#' @param y the n-dimensional data vector of counts
-#' @param Q the m x p structure matrix
-#' @param P the n x m matrix of transition probabilities
-#' @param S the p x p penalty matrix
-#' @param c0 the smoothness parameter
+#' @param x
 #'
-#' @return the p x p hessian matrix of the penalized log-likelihood
+#' @return
 #' @export
-hessian <- function(a, y, Q, P, S, c0){
+#'
+#' @examples #TODO
+sddot.default <- function(x){
+  stop(paste0("There is no method sddot for objects of the class '", class(x),"'"))
+}
 
-  result <- lddot(a, y, Q, P, S, c0) - sddot(a, y, Q, P, S, c0)
+#' hessian for the penalty term of `ppdeconvFix` objects
+#'
+#' @param x a `ppdeconvFix` object
+#'
+#' @return the hessian of the penalty term
+#' @export
+#'
+#' @examples #TODO
+sddot <- function(x){
+  return(x$c0 * x$S)
+}
+
+#' title
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples #TODO
+hessian <- function(x){
+  UseMethod("hessian")
+}
+
+#' Title
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples #TODO
+hessian.default <- function(x){
+  stop(paste0("There is no method hessian for objects of the class '", class(x),"'"))
+}
+
+#' hessian for the penalized log-likelihood
+#'
+#' @param x a `ppdeconvFix` object
+#'
+#' @return the hessian of the penalized log-likelihood
+#' @export
+#'
+#' @examples #TODO
+hessian.ppdeconvFix <- function(x){
+
+  result <- lddot(x) - sddot(x)
 
   return(result)
 }

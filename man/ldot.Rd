@@ -2,26 +2,19 @@
 % Please edit documentation in R/derivs.R
 \name{ldot}
 \alias{ldot}
-\title{The gradient of the unpenalized log-likelihood}
+\title{gradient of log-likelihood}
 \usage{
-ldot(a, y, Q, P, S, c0)
+ldot(x)
 }
 \arguments{
-\item{a}{the p-dimensional parameter vector}
-
-\item{y}{the n-dimensional data vector of counts}
-
-\item{Q}{the m x p structure matrix}
-
-\item{P}{the n x m matrix of transition probabilities}
-
-\item{S}{the p x p penalty matrix}
-
-\item{c0}{the smoothness parameter}
+\item{x}{a \code{ppdeconvFix} or \code{ppdeconvVar} object}
 }
 \value{
-the p-dimensional gradient of the unpenalized log-likelihood with respect to the parameter \code{a}
+the gradient of the log-likelihood
 }
 \description{
-The gradient of the unpenalized log-likelihood
+See documentation of \code{gradient} for details
+}
+\examples{
+#TODO
 }

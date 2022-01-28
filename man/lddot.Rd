@@ -2,26 +2,16 @@
 % Please edit documentation in R/derivs.R
 \name{lddot}
 \alias{lddot}
-\title{The Hessian of the unpenalized log-likelihood}
+\title{Title}
 \usage{
-lddot(a, y, Q, P, S, c0)
+lddot(x)
 }
 \arguments{
-\item{a}{the p-dimensional parameter vector}
-
-\item{y}{the n-dimensional data vector of counts}
-
-\item{Q}{the m x p structure matrix}
-
-\item{P}{the n x m matrix of transition probabilities}
-
-\item{S}{the p x p penalty matrix}
-
-\item{c0}{the smoothness parameter}
+\item{x}{}
 }
 \value{
-the p x p Hessian of the unpenalized log-likelihood with respect to the parameter \code{a}
+
 }
 \description{
-The Hessian of the unpenalized log-likelihood
+Title
 }

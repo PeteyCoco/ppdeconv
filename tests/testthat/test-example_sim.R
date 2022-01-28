@@ -8,19 +8,23 @@ test_that("output dimensions are correct", {
   r_wd <- 1
   height <- 1000
   sd <- 10
+  df <- 10
   M <- 50
 
   result <- example_sim(l_min = l_min, l_max = l_max, l_wd = l_wd,
                         r_min = r_min, r_max = r_max, r_wd = r_wd,
-                        height = height, sd = sd, M = M)
+                        height = height, sd = sd, df = df, M = M)
 
-  expect_equal( length(result$y), 100)
+  expect_equal( class(result), "ppdeconvFix")
+  expect_length( result$N, 100)
   expect_equal( dim(result$P), c(100, 200))
-  expect_equal( length(result$l_breaks), 201)
-  expect_equal( length(result$r_breaks), 101)
-  expect_equal( length(result$l_grid), 200)
-  expect_equal( length(result$r_grid), 100)
-  expect_equal( length(result$truth), 200)
+  expect_equal( dim(result$Q), c(200, 10))
+  expect_equal( dim(result$S), c(10, 10))
+  expect_length( result$l_breaks, 201)
+  expect_length( result$r_breaks, 101)
+  expect_length( result$l_grid, 200)
+  expect_length( result$r_grid, 100)
+  expect_length( result$a, 10)
 })
 
 test_that("example_P works when M = NULL", {
@@ -33,17 +37,21 @@ test_that("example_P works when M = NULL", {
   r_wd <- 1
   height <- 1000
   sd <- 10
+  df <- 10
   M <- NULL
 
   result <- example_sim(l_min = l_min, l_max = l_max, l_wd = l_wd,
                         r_min = r_min, r_max = r_max, r_wd = r_wd,
-                        height = height, sd = sd, M = M)
+                        height = height, sd = sd, df = df, M = M)
 
-  expect_equal( length(result$y), 100)
+  expect_equal( class(result), "ppdeconvFix")
+  expect_length( result$N, 100)
   expect_equal( dim(result$P), c(100, 200))
-  expect_equal( length(result$l_breaks), 201)
-  expect_equal( length(result$r_breaks), 101)
-  expect_equal( length(result$l_grid), 200)
-  expect_equal( length(result$r_grid), 100)
-  expect_equal( length(result$truth), 200)
+  expect_equal( dim(result$Q), c(200, 10))
+  expect_equal( dim(result$S), c(10, 10))
+  expect_length( result$l_breaks, 201)
+  expect_length( result$r_breaks, 101)
+  expect_length( result$l_grid, 200)
+  expect_length( result$r_grid, 100)
+  expect_length( result$a, 10)
 })

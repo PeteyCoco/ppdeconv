@@ -18,7 +18,7 @@
 #' @examples #TODO
 new_ppdeconvFix <- function(N = numeric(),
                             Q = matrix(nrow = 0, ncol = 0),
-                            P_fn,
+                            P = matrix(nrow = 0, ncol = 0),
                             S = matrix(nrow = 0, ncol = 0),
                             c0 = numeric(),
                             l_breaks = numeric(),
@@ -30,7 +30,7 @@ new_ppdeconvFix <- function(N = numeric(),
 
   stopifnot(is.numeric(N))
   stopifnot(is.matrix(Q))
-  stopifnot(is.function(P_fn))
+  stopifnot(is.matrix(P))
   stopifnot(is.matrix(S))
   stopifnot(is.numeric(c0))
   stopifnot(is.numeric(l_breaks))
@@ -48,7 +48,7 @@ new_ppdeconvFix <- function(N = numeric(),
   obj <- list()
   obj$N <- N
   obj$Q <- Q
-  obj$P_fn <- P_fn
+  obj$P <- P
   obj$S <- S
   obj$c0 <- c0
   obj$l_breaks <- l_breaks

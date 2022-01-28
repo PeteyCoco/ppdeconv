@@ -2,28 +2,18 @@
 % Please edit documentation in R/derivs.R
 \name{gradient}
 \alias{gradient}
-\title{Compute gradient of the penalized log-likelihood}
+\title{gradient for ppdeconv models}
 \usage{
-gradient(a, y, Q, P, S, c0)
+gradient(x)
 }
 \arguments{
-\item{a}{the p-dimensional parameter vector}
-
-\item{y}{the n-dimensional data vector of counts}
-
-\item{Q}{the m x p structure matrix}
-
-\item{P}{the n x m matrix of transition probabilities}
-
-\item{S}{the p x p penalty matrix}
-
-\item{c0}{the smoothness parameter}
+\item{x}{a \code{ppdeconvFix} or \code{ppdeconvVar} object}
 }
 \value{
-the p-dimesional gradient vector
+the gradient of the penalized log-likelihood
 }
 \description{
-Compute gradient of the penalized log-likelihood
+TODO: Add more detail
 }
 \examples{
 #TODO
