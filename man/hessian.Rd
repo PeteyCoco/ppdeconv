@@ -7,11 +7,14 @@
 hessian(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{a \code{ppdeconvFix} object}
 }
 \value{
 
 }
 \description{
 title
+}
+\examples{
+#TODO
 }

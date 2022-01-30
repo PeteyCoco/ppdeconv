@@ -25,9 +25,7 @@ new_ppdeconvFix <- function(N = numeric(),
                             r_breaks = numeric(),
                             l_grid = numeric(),
                             r_grid = numeric(),
-                            a = NULL
-                            ){
-
+                            a = NULL) {
   stopifnot(is.numeric(N))
   stopifnot(is.matrix(Q))
   stopifnot(is.matrix(P))
@@ -38,8 +36,8 @@ new_ppdeconvFix <- function(N = numeric(),
   stopifnot(is.numeric(l_grid))
   stopifnot(is.numeric(r_grid))
 
-  if(is.null(a)){
-    a <- rep(0,length.out = ncol(Q))
+  if (is.null(a)) {
+    a <- rep(0, length.out = ncol(Q))
   }
 
   stopifnot(is.numeric(a))

@@ -7,11 +7,14 @@
 \method{hessian}{default}(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{any object}
 }
 \value{
 
 }
 \description{
 Title
+}
+\examples{
+#TODO
 }

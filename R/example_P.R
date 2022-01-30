@@ -14,28 +14,33 @@
 #' l_breaks <- seq(0,10, length.out = 21)
 #' r_breaks <- seq(0,15, length.out = 16)
 #' P <- example_P(l_breaks, r_breaks, sd = 2)
-example_P <- function(l_breaks, r_breaks, sd){
-
-  assertthat::assert_that(is.vector(l_breaks, mode = "numeric"),
-                          is.vector(r_breaks, mode = "numeric"),
-                          assertthat::is.number(sd),
-                          length(l_breaks) > 0,
-                          length(r_breaks) > 0)
+example_P <- function(l_breaks, r_breaks, sd) {
+  assertthat::assert_that(
+    is.vector(l_breaks, mode = "numeric"),
+    is.vector(r_breaks, mode = "numeric"),
+    assertthat::is.number(sd),
+    length(l_breaks) > 0,
+    length(r_breaks) > 0
+  )
 
   # Define the quadrature grid along the latent space defined by l_breaks
   l_grid <- get_midpoints(l_breaks)
   l_wd <- diff(l_breaks)
 
   # Perform Quadrature for the latent space integration
-  result <- lapply(l_grid, function(l) cond(l = l, r_breaks = r_breaks, sd = sd))
+  result <-
+    lapply(l_grid, function(l)
+      cond(l = l, r_breaks = r_breaks, sd = sd))
   P <- matrix(unlist(result), nrow = length(l_grid), byrow = TRUE)
   P <- l_wd * P
 
   P <- t(P)
 
   # Add interval labels to the rows (the observed space)
-  rownames(P) <- paste0("(", r_breaks[-length(r_breaks)], ",", r_breaks[-1] , "]")
-  colnames(P) <- paste0("(", l_breaks[-length(l_breaks)], ",", l_breaks[-1] , "]")
+  rownames(P) <-
+    paste0("(", r_breaks[-length(r_breaks)], ",", r_breaks[-1] , "]")
+  colnames(P) <-
+    paste0("(", l_breaks[-length(l_breaks)], ",", l_breaks[-1] , "]")
 
   return(P)
 
@@ -49,13 +54,12 @@ example_P <- function(l_breaks, r_breaks, sd){
 #' @param sd the standard deviation of the half-normal distribution
 #'
 #' @return the CDF for the given vector of quantiles `q`
-phnorm <- Vectorize(function(q, mean = 0, sd){
-
-  if(q < mean){
+phnorm <- Vectorize(function(q, mean = 0, sd) {
+  if (q < mean) {
     0
   }
   else{
-    2*(stats::pnorm(q, mean = mean, sd = sd)-0.5)
+    2 * (stats::pnorm(q, mean = mean, sd = sd) - 0.5)
   }
 })
 
@@ -70,9 +74,8 @@ phnorm <- Vectorize(function(q, mean = 0, sd){
 #' @param sd the standard deviation of the half-normal distribution
 #'
 #' @return an n vector whose i^th entry is P_{ij} as defined above.
-cond <- function(l, r_breaks , sd){
-
+cond <- function(l, r_breaks , sd) {
   a <- phnorm(r_breaks, mean = l, sd = sd)[-length(r_breaks)]
   b <- phnorm(r_breaks, mean = l, sd = sd)[-1]
-  return(b-a)
+  return(b - a)
 }
