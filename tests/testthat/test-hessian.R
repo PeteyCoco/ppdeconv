@@ -14,7 +14,9 @@ test_that("dimension of Hessian functions are correct", {
     seed = 235
   )
 
-  expect_equal(dim(lddot(example)), c(10, 10))
-  expect_equal(dim(sddot(example)), c(10, 10))
-  expect_equal(dim(hessian(example)), c(10, 10))
+  a <- rep(0, 10)
+
+  expect_equal(dim(lddot(example, a)), c(10, 10))
+  expect_equal(dim(sddot(example, a)), c(10, 10))
+  expect_equal(dim(hessian(example, a)), c(10, 10))
 })

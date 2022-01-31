@@ -4,10 +4,12 @@
 \alias{lddot.ppdeconvFix}
 \title{hessian of log-likelihood for \code{ppdeconvFix}}
 \usage{
-\method{lddot}{ppdeconvFix}(x)
+\method{lddot}{ppdeconvFix}(x, a)
 }
 \arguments{
-\item{x}{a \code{ppdeconvFix} object}
+\item{x, }{a a \code{ppdeconvFix} object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 the hessian of the log-likelihood

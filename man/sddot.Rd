@@ -4,12 +4,14 @@
 \alias{sddot}
 \title{Title}
 \usage{
-sddot(x)
+sddot(x, a)
 
-sddot(x)
+sddot(x, a)
 }
 \arguments{
 \item{x}{a \code{ppdeconvFix} object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 

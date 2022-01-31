@@ -4,10 +4,12 @@
 \alias{hessian.default}
 \title{Title}
 \usage{
-\method{hessian}{default}(x)
+\method{hessian}{default}(x, a)
 }
 \arguments{
 \item{x}{any object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 

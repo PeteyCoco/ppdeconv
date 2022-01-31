@@ -18,7 +18,7 @@ test_that("MLE fit works with block diagonal matrices", {
   # Stack data into lists
   data <- list(example, example)
 
-  fit <- ppdeconv(a0 = NULL, data = data, mode = "mle")
+  fit <- ppdeconv(a0 = NULL, data = data, mode = "fixed", method = "mle")
 
   expect_equal(fit$convergence, 0)
 })

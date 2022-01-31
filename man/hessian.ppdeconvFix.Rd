@@ -4,10 +4,12 @@
 \alias{hessian.ppdeconvFix}
 \title{hessian for the penalized log-likelihood}
 \usage{
-\method{hessian}{ppdeconvFix}(x)
+\method{hessian}{ppdeconvFix}(x, a)
 }
 \arguments{
 \item{x}{a \code{ppdeconvFix} object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 the hessian of the penalized log-likelihood

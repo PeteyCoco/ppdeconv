@@ -6,12 +6,12 @@
 #' @export
 #'
 #' @examples #TODO
-loglik <- function(x) {
-  la <- exp(x$Q %*% x$a)
+loglik <- function(x, a) {
+  la <- exp(x$Q %*% a)
   ra <- as.vector(x$P %*% la)
 
   li <- x$N * log(ra) - ra
-  Ja <- 0.5 * t(x$a) %*% (x$c0 * x$S) %*% x$a
+  Ja <- 0.5 * t(a) %*% (x$c0 * x$S) %*% a
   ll <- sum(li) - Ja
 
   return(as.numeric(ll))

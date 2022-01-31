@@ -4,10 +4,12 @@
 \alias{ldot.ppdeconvFix}
 \title{\code{ldot} for fixed P ppdeconv model}
 \usage{
-\method{ldot}{ppdeconvFix}(x)
+\method{ldot}{ppdeconvFix}(x, a)
 }
 \arguments{
 \item{x}{a \code{ppdeconvFix} object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 the gradient of the log-likelihood

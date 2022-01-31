@@ -15,9 +15,12 @@ test_that("gradient function outputs have proper dimension.", {
     seed = 235
   )
 
-  ldot <- ldot(example)
-  sdot <- sdot(example)
-  grad <- gradient(example)
+  # Parameter
+  a <- rep(0,10)
+
+  ldot <- ldot(example, a)
+  sdot <- sdot(example, a)
+  grad <- gradient(example, a)
 
   # Check the length of the gradients
   expect_length(ldot, 10)

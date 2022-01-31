@@ -4,10 +4,12 @@
 \alias{gradient}
 \title{gradient for ppdeconv models}
 \usage{
-gradient(x)
+gradient(x, a)
 }
 \arguments{
 \item{x}{a \code{ppdeconvFix} or \code{ppdeconvVar} object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 the gradient of the penalized log-likelihood

@@ -4,14 +4,19 @@
 \alias{gradient.default}
 \title{Title}
 \usage{
-\method{gradient}{default}(x)
+\method{gradient}{default}(x, a)
 }
 \arguments{
 \item{x}{any object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 
 }
 \description{
 Title
+}
+\examples{
+#TODO
 }

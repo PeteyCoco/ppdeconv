@@ -4,10 +4,12 @@
 \alias{ldot}
 \title{gradient of log-likelihood}
 \usage{
-ldot(x)
+ldot(x, a)
 }
 \arguments{
 \item{x}{a \code{ppdeconvFix} or \code{ppdeconvVar} object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 the gradient of the log-likelihood

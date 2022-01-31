@@ -4,10 +4,12 @@
 \alias{sdot.default}
 \title{Title}
 \usage{
-\method{sdot}{default}(x)
+\method{sdot}{default}(x, a)
 }
 \arguments{
 \item{x}{any object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 

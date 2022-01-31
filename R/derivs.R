@@ -3,37 +3,41 @@
 #' See documentation of `gradient` for details
 #'
 #' @param x a `ppdeconvFix` or `ppdeconvVar` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return the gradient of the log-likelihood
 #' @export
 #'
 #' @examples #TODO
-ldot <- function(x) {
+ldot <- function(x,a) {
   UseMethod("ldot")
 }
 
 #' Title
 #'
 #' @param x any object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
 #' @examples #TODO
-ldot.default <- function(x) {
+ldot.default <- function(x,a) {
   stop(paste0("There is no method ldot for objects of the class '", class(x), "'"))
 }
 
 #' `ldot` for fixed P ppdeconv model
 #'
 #' @param x a `ppdeconvFix` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return the gradient of the log-likelihood
 #' @export
+#' @importFrom Matrix t
 #'
 #' @examples #TODO
-ldot.ppdeconvFix <- function(x) {
-  la <- as.vector(exp(x$Q %*% x$a))
+ldot.ppdeconvFix <- function(x,a) {
+  la <- as.vector(exp(x$Q %*% a))
 
   ra <- as.vector(x$P %*% la)
 
@@ -45,7 +49,7 @@ ldot.ppdeconvFix <- function(x) {
 
   ldot_i <- t(x$Q) %*% yra_W
 
-  return(rowSums(ldot_i))
+  return(Matrix::rowSums(ldot_i))
 }
 
 #' gradient of the penalty term
@@ -53,37 +57,40 @@ ldot.ppdeconvFix <- function(x) {
 #' See documentation of `gradient` for details
 #'
 #' @param x a `ppdeconvFix` or `ppdeconvVar` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return the gradient of the penalty term
 #' @export
 #'
 #' @examples #TODO
-sdot <- function(x) {
+sdot <- function(x, a) {
   UseMethod("sdot")
 }
 
 #' Title
 #'
 #' @param x any object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
 #' @examples #TODO
-sdot.default <- function(x) {
+sdot.default <- function(x, a) {
   stop(paste0("There is no method sdot for objects of the class '", class(x), "'"))
 }
 
 #' `sdot` for fixed P ppdeconv model
 #'
 #' @param x a `ppdeconvFix` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
 #' @examples #TODO
-sdot.ppdeconvFix <- function(x) {
-  return((x$c0 * x$S) %*% x$a)
+sdot.ppdeconvFix <- function(x, a) {
+  return(as.numeric((x$c0 * x$S) %*% a))
 }
 
 #' gradient for ppdeconv models
@@ -91,24 +98,26 @@ sdot.ppdeconvFix <- function(x) {
 #' TODO: Add more detail
 #'
 #' @param x a `ppdeconvFix` or `ppdeconvVar` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return the gradient of the penalized log-likelihood
 #' @export
 #'
 #' @examples #TODO
-gradient <- function(x) {
+gradient <- function(x, a) {
   UseMethod("gradient")
 }
 
 #' Title
 #'
 #' @param x any object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
-#' @examples
-gradient.default <- function(x) {
+#' @examples #TODO
+gradient.default <- function(x, a) {
   stop(paste0(
     "there is no method gradient for objects of the class '",
     class(x),
@@ -118,14 +127,15 @@ gradient.default <- function(x) {
 
 #' gradient for fixed P ppdeconv models
 #'
-#' @param obj a `ppdeconvFix` object
+#' @param x a `ppdeconvFix` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return the gradient of the penalized log-likelihood
 #' @export
 #'
 #' @examples #TODO
-gradient.ppdeconvFix <- function(obj) {
-  result <- ldot(obj) - sdot(obj)
+gradient.ppdeconvFix <- function(x, a) {
+  result <- ldot(x, a) - sdot(x, a)
 
   return(as.numeric(result))
 }
@@ -133,37 +143,41 @@ gradient.ppdeconvFix <- function(obj) {
 #' Title
 #'
 #' @param x a `ppdeconvFix` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
 #' @examples #TODO
-lddot <- function(x) {
+lddot <- function(x, a) {
   UseMethod("lddot")
 }
 
 #' Title
 #'
 #' @param x any object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
 #' @examples #TODO
-lddot.default <- function(x) {
+lddot.default <- function(x, a) {
   stop(paste0("There is no method lddot for objects of the class '", class(x), "'"))
 }
 
 #' hessian of log-likelihood for `ppdeconvFix`
 #'
-#' @param x a `ppdeconvFix` object
+#' @param x, a a `ppdeconvFix` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return the hessian of the log-likelihood
 #' @export
+#' @importFrom Matrix t
 #'
 #' @examples #TODO
-lddot.ppdeconvFix <- function(x) {
-  la <- as.vector(exp(x$Q %*% x$a))
+lddot.ppdeconvFix <- function(x, a) {
+  la <- as.vector(exp(x$Q %*% a))
 
   ra <- as.vector(x$P %*% la)
 
@@ -175,7 +189,7 @@ lddot.ppdeconvFix <- function(x) {
 
   WyW <- W %*% (x$N * t(W))
 
-  WyW_diag <- diag(colSums(yra_W)) - WyW
+  WyW_diag <- diag(Matrix::colSums(yra_W)) - WyW
 
   result <- t(x$Q) %*% (WyW_diag %*% x$Q)
 
@@ -184,60 +198,65 @@ lddot.ppdeconvFix <- function(x) {
 #' Title
 #'
 #' @param x a `ppdeconvFix` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
 #' @examples #TODO
-sddot <- function(x) {
+sddot <- function(x,a) {
   UseMethod("sddot")
 }
 
 #' Title
 #'
 #' @param x any object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
 #' @examples #TODO
-sddot.default <- function(x) {
+sddot.default <- function(x,a) {
   stop(paste0("There is no method sddot for objects of the class '", class(x), "'"))
 }
 
 #' hessian for the penalty term of `ppdeconvFix` objects
 #'
 #' @param x a `ppdeconvFix` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return the hessian of the penalty term
 #' @export
 #'
 #' @examples #TODO
-sddot <- function(x) {
+sddot <- function(x,a) {
   return(x$c0 * x$S)
 }
 
 #' title
 #'
 #' @param x a `ppdeconvFix` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
 #' @examples #TODO
-hessian <- function(x) {
+hessian <- function(x,a) {
   UseMethod("hessian")
 }
 
 #' Title
 #'
 #' @param x any object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return
 #' @export
 #'
 #' @examples #TODO
-hessian.default <- function(x) {
+hessian.default <- function(x,a) {
   stop(paste0(
     "There is no method hessian for objects of the class '",
     class(x),
@@ -249,13 +268,14 @@ hessian.default <- function(x) {
 #' hessian for the penalized log-likelihood
 #'
 #' @param x a `ppdeconvFix` object
+#' @param a a parameter vector with length(a) = ncol(x$Q)
 #'
 #' @return the hessian of the penalized log-likelihood
 #' @export
 #'
 #' @examples #TODO
-hessian.ppdeconvFix <- function(x) {
-  result <- lddot(x) - sddot(x)
+hessian.ppdeconvFix <- function(x,a) {
+  result <- lddot(x,a) - sddot(x,a)
 
   return(result)
 }

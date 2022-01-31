@@ -4,7 +4,7 @@
 \alias{loglik}
 \title{log-likelihood for \code{ppdeconv} object}
 \usage{
-loglik(x)
+loglik(x, a)
 }
 \arguments{
 \item{x}{a \code{ppdeconvFix} object}

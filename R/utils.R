@@ -10,16 +10,13 @@
 #' @examples
 #' x_breaks <- c(0, 2, 3, 5, 8)
 #' x_mid <- get_midpoints(x_breaks)
-get_midpoints <- function(x_breaks){
-
-  assertthat::assert_that(
-    length(x_breaks) >= 2,
-    is.numeric(x_breaks),
-    assertthat::noNA(x_breaks)
-  )
+get_midpoints <- function(x_breaks) {
+  assertthat::assert_that(length(x_breaks) >= 2,
+                          is.numeric(x_breaks),
+                          assertthat::noNA(x_breaks))
 
   x_breaks <- sort(x_breaks)
-  mid <- (x_breaks[-1] + x_breaks[-length(x_breaks)])/2
+  mid <- (x_breaks[-1] + x_breaks[-length(x_breaks)]) / 2
   return(mid)
 }
 
@@ -30,18 +27,41 @@ get_midpoints <- function(x_breaks){
 #' @return list of data in block diagonal format
 #' @export
 #'
+#' @importFrom Matrix bdiag
+#'
 #' @examples
 #' # TODO
-to_bdiag <- function(data){
+to_bdiag <- function(data) {
+  # Put data into block diagonal format
+  N_bdiag <- unlist(lapply(data, function(x)
+    x$N))
+  Q_bdiag <- bdiag(lapply(data, function(x)
+    x$Q))
+  P_bdiag <- bdiag(lapply(data, function(x)
+    x$P))
+  S_bdiag <- bdiag(lapply(data, function(x)
+    x$S))
+  c0_bdiag <- rep(unlist(lapply(data, function(x)
+    x$c0)),
+    times = unlist(lapply(data, function(x)
+      nrow(x$S))))
+  l_grid_bdiag <- unlist(lapply(data, function(x)
+    x$l_grid))
+  r_grid_bdiag <- unlist(lapply(data, function(x)
+    x$r_grid))
+  a_bdiag <- unlist(lapply(data, function(x)
+    x$a))
 
-    # Put data into block diagonal format
-    y_bdiag <- unlist(lapply(data, function(x) x$y))
-    Q_bdiag <- bdiag(lapply(data, function(x) x$Q))
-    P_bdiag <- bdiag(lapply(data, function(x) x$P))
-    S_bdiag <- bdiag(lapply(data, function(x) x$S))
-    c0_bdiag <- rep(unlist(lapply(data, function(x) x$c0)),
-                   times = unlist(lapply(data, function(x) nrow(x$S))))
-
-    data_bdiag <- list(y = y_bdiag, Q = Q_bdiag, P = P_bdiag, S = S_bdiag, c0 = c0_bdiag)
-    return(data_bdiag)
+  data_bdiag <-
+    new_ppdeconvFix(
+      N = N_bdiag,
+      Q = Q_bdiag,
+      P = P_bdiag,
+      S = S_bdiag,
+      c0 = c0_bdiag,
+      l_grid = l_grid_bdiag,
+      r_grid = r_grid_bdiag,
+      a = a_bdiag
+    )
+  return(data_bdiag)
 }

@@ -9,54 +9,73 @@
 #'
 #' @examples
 #' # TODO
-ppdeconv <- function(a0 = NULL, data, mode = "mle") {
-  # Default fit NULL is returned in case of error
-  fit <- NULL
+ppdeconv <-
+  function(a0 = NULL,
+           data,
+           mode = "fixed",
+           method = "mle") {
+    # Default fit NULL is returned in case of error
+    fit <- NULL
 
-  if (mode == "mle") {
-    data_bdiag <- to_bdiag(data)
+    # Convert list of data to a list of ppdeconvFix or ppdeconvVar objects
+    if (mode == "fixed") {
+      data <- lapply(
+        data,
+        FUN = function(x) {
+          do.call(new_ppdeconvFix, x)
+        }
+      )
 
-    # Define the objective function and its gradient
-    fn <-
-      function(p)
-        loglik(
-          p,
-          y = data_bdiag$y,
-          Q = data_bdiag$Q,
-          P = data_bdiag$P,
-          S = data_bdiag$S,
-          c0 = data_bdiag$c0
-        )
-    gr <-
-      function(p)
-        gradient(
-          p,
-          y = data_bdiag$y,
-          Q = data_bdiag$Q,
-          P = data_bdiag$P,
-          S = data_bdiag$S,
-          c0 = data_bdiag$c0
-        )
+      # Change default parameter idx's to reflect separate models
+      a_idx <-
+        rep(1:length(data), times = unlist(lapply(data, function(x) {
+          ncol(x$Q)
+        })))
+      par_idx <- 1:length(a_idx)
+      for (i in 1:length(data)) {
+        data[[i]]$a_idx <- par_idx[i == a_idx]
 
-    # Maximize
-    if (is.null(a0)) {
-      a0 <- rep(0, times = ncol(data_bdiag$Q))
+      }
+
+      # Combine data into one block diagonal ppdeconvFix
+      data <- to_bdiag(data)
+
+    }
+    else if (mode == "variable") {
+      stop("mode 'variable' has not been implemented")
+    }
+    else{
+      stop("mode must be either 'fixed' or 'variable'")
+    }
+    if (method == "mle") {
+      # Define the objective function and its gradient
+      fn <- function(p) {
+        loglik(data, p)
+      }
+      gr <- function(p) {
+        gradient(data, p)
+      }
+
+      # Set the initial parameter guess
+      if (is.null(a0)) {
+        a0 <- rep(0, ncol(data$Q))
+      }
+
+
+      fit <- stats::optim(
+        par = a0,
+        fn = fn,
+        gr = gr,
+        method = "BFGS",
+        control = list(fnscale = -1)
+      )
+    }
+    else if (method == "rmle") {
+      stop("mode 'reml' has not been implemented")
+    }
+    else{
+      stop("mode must be either 'mle' or 'reml'")
     }
 
-    fit <- stats::optim(
-      par = a0,
-      fn = fn,
-      gr = gr,
-      method = "BFGS",
-      control = list(fnscale = -1)
-    )
+    return(fit)
   }
-  else if (mode == "rmle") {
-
-  }
-  else{
-    stop("mode not recognized")
-  }
-
-  return(fit)
-}

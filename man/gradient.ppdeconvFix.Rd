@@ -4,10 +4,12 @@
 \alias{gradient.ppdeconvFix}
 \title{gradient for fixed P ppdeconv models}
 \usage{
-\method{gradient}{ppdeconvFix}(obj)
+\method{gradient}{ppdeconvFix}(x, a)
 }
 \arguments{
-\item{obj}{a \code{ppdeconvFix} object}
+\item{x}{a \code{ppdeconvFix} object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 the gradient of the penalized log-likelihood

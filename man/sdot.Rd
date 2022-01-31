@@ -4,10 +4,12 @@
 \alias{sdot}
 \title{gradient of the penalty term}
 \usage{
-sdot(x)
+sdot(x, a)
 }
 \arguments{
 \item{x}{a \code{ppdeconvFix} or \code{ppdeconvVar} object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 the gradient of the penalty term

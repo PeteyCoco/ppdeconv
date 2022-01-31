@@ -25,11 +25,12 @@ new_ppdeconvFix <- function(N = numeric(),
                             r_breaks = numeric(),
                             l_grid = numeric(),
                             r_grid = numeric(),
-                            a = NULL) {
+                            a = NULL,
+                            a_idx = NULL) {
   stopifnot(is.numeric(N))
-  stopifnot(is.matrix(Q))
-  stopifnot(is.matrix(P))
-  stopifnot(is.matrix(S))
+  stopifnot(is.matrix(Q) | class(Q) == "dgCMatrix")
+  stopifnot(is.matrix(P) | class(Q) == "dgCMatrix")
+  stopifnot(is.matrix(S) | class(Q) == "dgCMatrix")
   stopifnot(is.numeric(c0))
   stopifnot(is.numeric(l_breaks))
   stopifnot(is.numeric(r_breaks))
@@ -39,8 +40,10 @@ new_ppdeconvFix <- function(N = numeric(),
   if (is.null(a)) {
     a <- rep(0, length.out = ncol(Q))
   }
+  a_idx <- 1:length(a)
 
   stopifnot(is.numeric(a))
+  stopifnot(is.numeric(a_idx))
 
 
   obj <- list()
@@ -54,6 +57,7 @@ new_ppdeconvFix <- function(N = numeric(),
   obj$l_grid <- l_grid
   obj$r_grid <- r_grid
   obj$a <- a
+  obj$a_idx <- a_idx
 
   class(obj) <- "ppdeconvFix"
 

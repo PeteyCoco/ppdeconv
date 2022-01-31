@@ -4,10 +4,12 @@
 \alias{hessian}
 \title{title}
 \usage{
-hessian(x)
+hessian(x, a)
 }
 \arguments{
 \item{x}{a \code{ppdeconvFix} object}
+
+\item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
 \value{
 
