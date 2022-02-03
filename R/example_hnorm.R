@@ -81,9 +81,9 @@ example_hnorm <-
     Q <- smooth[[1]]$X
     S <- smooth[[1]]$S[[1]]
 
-    P <- example_P(l_breaks = l_breaks,
-                   r_breaks = r_breaks,
-                   sd = sd)
+    P <- P_hnorm(l_breaks = l_breaks,
+                 r_breaks = r_breaks,
+                 sd = sd)
 
     return(
       new_ppdeconvFix(
