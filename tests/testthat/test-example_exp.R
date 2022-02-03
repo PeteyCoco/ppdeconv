@@ -22,10 +22,10 @@ test_that("output dimensions are correct", {
     rate = rate,
     df = df,
     c0 = c0,
-    M = M
+    M = M,
   )
 
-  expect_equal(class(result), "ppdeconvFix")
+  expect_equal(class(result), "ppdeconvVar")
   expect_length(result$N, 100)
   expect_equal(dim(result$P), c(100, 200))
   expect_equal(dim(result$Q), c(200, 10))
@@ -64,7 +64,7 @@ test_that("example_P works when M = NULL", {
     M = M
   )
 
-  expect_equal(class(result), "ppdeconvFix")
+  expect_equal(class(result), "ppdeconvVar")
   expect_length(result$N, 100)
   expect_equal(dim(result$P), c(100, 200))
   expect_equal(dim(result$Q), c(200, 10))

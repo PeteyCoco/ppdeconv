@@ -63,8 +63,15 @@ example_exp <-
                r_breaks = r_breaks,
                rate = rate)
 
+    # Define the function to compute new P
+    P_fn <- function(x){
+      P_exp(l_breaks = x$l_breaks,
+            r_breaks = x$r_breaks,
+            rate = exp(x$b))
+    }
+
     return(
-      new_ppdeconvFix(
+      new_ppdeconvVar(
         N = N,
         Q = Q,
         P = P,
@@ -74,6 +81,8 @@ example_exp <-
         r_breaks = r_breaks,
         l_grid = l_grid,
         r_grid = r_grid,
+        P_fn = P_fn,
+        b = 0
       )
     )
   }

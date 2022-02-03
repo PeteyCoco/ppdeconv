@@ -63,3 +63,60 @@ new_ppdeconvFix <- function(N = numeric(),
 
   obj
 }
+
+new_ppdeconvVar <- function(N = numeric(),
+                            Q = matrix(nrow = 0, ncol = 0),
+                            P = matrix(nrow = 0, ncol = 0),
+                            S = matrix(nrow = 0, ncol = 0),
+                            c0 = numeric(),
+                            l_breaks = numeric(),
+                            r_breaks = numeric(),
+                            l_grid = numeric(),
+                            r_grid = numeric(),
+                            a = NULL,
+                            a_idx = NULL,
+                            b,
+                            b_idx = NULL,
+                            P_fn) {
+  stopifnot(is.numeric(N))
+  stopifnot(is.matrix(Q) | class(Q) == "dgCMatrix")
+  stopifnot(is.matrix(P) | class(Q) == "dgCMatrix")
+  stopifnot(is.matrix(S) | class(Q) == "dgCMatrix")
+  stopifnot(is.numeric(c0))
+  stopifnot(is.numeric(l_breaks))
+  stopifnot(is.numeric(r_breaks))
+  stopifnot(is.numeric(l_grid))
+  stopifnot(is.numeric(r_grid))
+
+  if (is.null(a)) {
+    a <- rep(0, length.out = ncol(Q))
+  }
+  a_idx <- 1:length(a)
+  b_idx <- 1:length(b)
+
+  stopifnot(is.numeric(a))
+  stopifnot(is.numeric(a_idx))
+  stopifnot(is.numeric(b))
+  stopifnot(is.numeric(b_idx))
+  stopifnot(is.function(P_fn))
+
+  obj <- list()
+  obj$N <- N
+  obj$Q <- Q
+  obj$P <- P
+  obj$S <- S
+  obj$c0 <- c0
+  obj$l_breaks <- l_breaks
+  obj$r_breaks <- r_breaks
+  obj$l_grid <- l_grid
+  obj$r_grid <- r_grid
+  obj$a <- a
+  obj$a_idx <- a_idx
+  obj$b <- b
+  obj$b_idx <- b_idx
+  obj$P_fn <- P_fn
+
+  class(obj) <- "ppdeconvVar"
+
+  obj
+}
