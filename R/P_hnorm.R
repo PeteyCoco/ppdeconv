@@ -3,7 +3,7 @@
 #' @param l_breaks a (m+1) vector defining a partition of the interval L into m sets
 #' @param r_breaks a (n+1) vector defining a partition of the interval R into n sets
 #' @param sd the standard deviation of the half-normal distribution
-#'
+#' @param n_quad the number of quadrature points between `l_breaks`
 #' @return the n x m matrix P of transition probabilities
 #' @export
 #'
@@ -14,7 +14,7 @@
 #' l_breaks <- seq(0,10, length.out = 21)
 #' r_breaks <- seq(0,15, length.out = 16)
 #' P <- P_hnorm(l_breaks, r_breaks, sd = 2)
-P_hnorm <- function(l_breaks, r_breaks, sd) {
+P_hnorm <- function(l_breaks, r_breaks, sd, n_quad = 1) {
   assertthat::assert_that(
     is.vector(l_breaks, mode = "numeric"),
     is.vector(r_breaks, mode = "numeric"),
@@ -24,23 +24,32 @@ P_hnorm <- function(l_breaks, r_breaks, sd) {
   )
 
   # Define the quadrature grid along the latent space defined by l_breaks
-  l_grid <- get_midpoints(l_breaks)
-  l_wd <- diff(l_breaks)
+  l_quad <- sort(c(l_breaks, get_midpoints(l_breaks, q = n_quad)))
+  l_wd <- diff(l_quad)
+  l_quad <- l_quad[-length(l_quad)]
 
   # Perform Quadrature for the latent space integration
   result <-
-    lapply(l_grid, function(l)
+    lapply(l_quad, function(l)
       cond_hnorm(l = l, r_breaks = r_breaks, sd = sd))
-  P <- matrix(unlist(result), nrow = length(l_grid), byrow = TRUE)
+  P <- matrix(unlist(result), nrow = length(l_quad), byrow = TRUE)
   P <- l_wd * P
+  P <-
+    rowsum(P,
+           cut(
+             l_quad,
+             breaks = l_breaks,
+             include.lowest = TRUE,
+             right = FALSE
+           ))
 
   P <- t(P)
 
   # Add interval labels to the rows (the observed space)
   rownames(P) <-
-    paste0("(", r_breaks[-length(r_breaks)], ",", r_breaks[-1] , "]")
+    paste0("[", r_breaks[-length(r_breaks)], ",", r_breaks[-1] , ")")
   colnames(P) <-
-    paste0("(", l_breaks[-length(l_breaks)], ",", l_breaks[-1] , "]")
+    paste0("[", l_breaks[-length(l_breaks)], ",", l_breaks[-1] , ")")
 
   return(P)
 

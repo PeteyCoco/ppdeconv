@@ -4,7 +4,7 @@
 \alias{P_hnorm}
 \title{P matrix for half-normal example}
 \usage{
-P_hnorm(l_breaks, r_breaks, sd)
+P_hnorm(l_breaks, r_breaks, sd, n_quad = 1)
 }
 \arguments{
 \item{l_breaks}{a (m+1) vector defining a partition of the interval L into m sets}
@@ -12,6 +12,8 @@ P_hnorm(l_breaks, r_breaks, sd)
 \item{r_breaks}{a (n+1) vector defining a partition of the interval R into n sets}
 
 \item{sd}{the standard deviation of the half-normal distribution}
+
+\item{n_quad}{the number of quadrature points between \code{l_breaks}}
 }
 \value{
 the n x m matrix P of transition probabilities
