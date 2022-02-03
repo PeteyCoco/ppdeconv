@@ -76,5 +76,7 @@ ppdeconv <-
       stop("mode must be either 'mle' or 'reml'")
     }
 
+    result <- list(data = data, fit = fit)
+    class(result) <- "ppdeconvFit"
     return(fit)
   }
