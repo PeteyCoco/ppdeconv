@@ -94,7 +94,7 @@ example_exp <-
 #' l_breaks <- seq(0,10, length.out = 21)
 #' r_breaks <- seq(0,15, length.out = 16)
 #' P <- P_exp(l_breaks, r_breaks, rate = 1)
-P_exp <- function(l_breaks, r_breaks, rate) {
+P_exp <- function(l_breaks, r_breaks, rate, n_quad = 1) {
   assertthat::assert_that(
     is.vector(l_breaks, mode = "numeric"),
     is.vector(r_breaks, mode = "numeric"),
@@ -104,19 +104,28 @@ P_exp <- function(l_breaks, r_breaks, rate) {
   )
 
   # Define the quadrature grid along the latent space defined by l_breaks
-  l_grid <- get_midpoints(l_breaks)
-  l_wd <- diff(l_breaks)
+  l_quad <- sort(c(l_breaks, get_midpoints(l_breaks, q = n_quad)))
+  l_wd <- diff(l_quad)
+  l_quad <- l_quad[-length(l_quad)]
 
   # Perform Quadrature for the latent space integration
   result <-
-    lapply(l_grid, function(l)
+    lapply(l_quad, function(l)
       cond_exp(
         l = l,
         r_breaks = r_breaks,
         rate = rate
       ))
-  P <- matrix(unlist(result), nrow = length(l_grid), byrow = TRUE)
+  P <- matrix(unlist(result), nrow = length(l_quad), byrow = TRUE)
   P <- l_wd * P
+  P <-
+    rowsum(P,
+           cut(
+             l_quad,
+             breaks = l_breaks,
+             include.lowest = TRUE,
+             right = FALSE
+           ))
 
   P <- t(P)
 

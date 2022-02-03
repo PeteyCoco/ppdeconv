@@ -4,7 +4,7 @@
 \alias{P_exp}
 \title{Title}
 \usage{
-P_exp(l_breaks, r_breaks, rate)
+P_exp(l_breaks, r_breaks, rate, n_quad = 1)
 }
 \arguments{
 \item{l_breaks}{a (m+1) vector defining a partition of the interval L into m sets}
