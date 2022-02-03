@@ -99,36 +99,3 @@ example_hnorm <-
       )
     )
   }
-
-example_bernvar <-
-  function(l_min,
-           l_max,
-           l_wd,
-           r_min,
-           r_max,
-           r_wd,
-           df,
-           c0,
-           b,
-           height,
-           M = NULL,
-           seed = NULL) {
-    assertthat::assert_that(l_min < l_max,
-                            r_min < r_max,
-                            height >= 0,
-                            l_wd > 0,
-                            r_wd > 0)
-    if (!is.null(seed)) {
-      set.seed(seed)
-    }
-
-    sample <-
-      sim_nhpp(
-        function(x)
-          example_lambda(x, height),
-        M = M,
-        min = l_min,
-        max = l_max
-      )
-
-  }
