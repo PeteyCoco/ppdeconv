@@ -4,16 +4,19 @@
 \alias{get_midpoints}
 \title{Get midpoint}
 \usage{
-get_midpoints(x_breaks)
+get_midpoints(x_breaks, q = 1)
 }
 \arguments{
 \item{x_breaks}{a (n+1) vector defining a partition of an interval}
+
+\item{q}{an integer specifying the number of points within interval}
 }
 \value{
 an n vector of the midpoints of \code{x_breaks}
 }
 \description{
-A helper function for computing the midpoints for a given a vector defining a partition of an interval.
+A helper function that returns a vector of q equally spaced
+points within the intervals specified by x_breaks
 }
 \examples{
 x_breaks <- c(0, 2, 3, 5, 8)
