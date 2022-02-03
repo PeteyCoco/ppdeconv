@@ -13,8 +13,8 @@
 #' # The observed interval R = [0,15] is divided into 15 intervals of length 1.
 #' l_breaks <- seq(0,10, length.out = 21)
 #' r_breaks <- seq(0,15, length.out = 16)
-#' P <- example_P(l_breaks, r_breaks, sd = 2)
-example_P <- function(l_breaks, r_breaks, sd) {
+#' P <- P_hnorm(l_breaks, r_breaks, sd = 2)
+P_hnorm <- function(l_breaks, r_breaks, sd) {
   assertthat::assert_that(
     is.vector(l_breaks, mode = "numeric"),
     is.vector(r_breaks, mode = "numeric"),
@@ -67,7 +67,7 @@ phnorm <- Vectorize(function(q, mean = 0, sd) {
 #' `cond` helper function
 #'
 #' 'cond' computes the inner integral in () wrt the observed coordinate `r` for a given the latent coordinate `l`.
-#' This is a helper function for `example_P` and should not be used independently.
+#' This is a helper function for `P_hnorm` and should not be used independently.
 #'
 #' @param l the given value of the latent variable
 #' @param r_breaks a (n+1) vector defining a partition of the interval R into n sets
