@@ -61,7 +61,6 @@ ppdeconv <-
         a0 <- rep(0, ncol(data$Q))
       }
 
-
       fit <- stats::optim(
         par = a0,
         fn = fn,

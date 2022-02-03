@@ -20,7 +20,7 @@ example_lambda <- function(x, height) {
               0.4 * stats::dnorm(x, mean = 70, sd = 10))
 }
 
-example_sim <-
+example_hnorm <-
   function(l_min,
            l_max,
            l_wd,
@@ -98,4 +98,37 @@ example_sim <-
         r_grid = r_grid,
       )
     )
+  }
+
+example_bernvar <-
+  function(l_min,
+           l_max,
+           l_wd,
+           r_min,
+           r_max,
+           r_wd,
+           df,
+           c0,
+           b,
+           height,
+           M = NULL,
+           seed = NULL) {
+    assertthat::assert_that(l_min < l_max,
+                            r_min < r_max,
+                            height >= 0,
+                            l_wd > 0,
+                            r_wd > 0)
+    if (!is.null(seed)) {
+      set.seed(seed)
+    }
+
+    sample <-
+      sim_nhpp(
+        function(x)
+          example_lambda(x, height),
+        M = M,
+        min = l_min,
+        max = l_max
+      )
+
   }

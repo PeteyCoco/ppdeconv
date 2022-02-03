@@ -11,7 +11,7 @@ test_that("output dimensions are correct", {
   c0 <- 1
   M <- 50
 
-  result <- example_sim(
+  result <- example_hnorm(
     l_min = l_min,
     l_max = l_max,
     l_wd = l_wd,
@@ -50,7 +50,7 @@ test_that("example_P works when M = NULL", {
   c0 <- 1
   M <- NULL
 
-  result <- example_sim(
+  result <- example_hnorm(
     l_min = l_min,
     l_max = l_max,
     l_wd = l_wd,

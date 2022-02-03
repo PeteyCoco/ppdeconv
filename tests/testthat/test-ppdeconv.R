@@ -1,6 +1,6 @@
 test_that("MLE fit works with block diagonal matrices", {
   # Simulate one realization from the example intensity
-  example <- example_sim(
+  example <- example_hnorm(
     l_min = 0,
     l_max = 100,
     l_wd = 0.5,
