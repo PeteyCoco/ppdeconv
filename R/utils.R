@@ -29,48 +29,19 @@ get_midpoints <- function(x_breaks, q = 1) {
   return(mid)
 }
 
-#' Put data into block diagonal format
-#'
-#' @param data list of data for the ppdeconv function
-#'
-#' @return list of data in block diagonal format
-#' @export
-#'
-#' @importFrom Matrix bdiag
-#'
-#' @examples
-#' # TODO
-to_bdiag.ppdeconvFix <- function(data) {
-  # Put data into block diagonal format
-  N_bdiag <- unlist(lapply(data, function(x)
-    x$N))
-  Q_bdiag <- bdiag(lapply(data, function(x)
-    x$Q))
-  P_bdiag <- bdiag(lapply(data, function(x)
-    x$P))
-  S_bdiag <- bdiag(lapply(data, function(x)
-    x$S))
-  c0_bdiag <- rep(unlist(lapply(data, function(x)
-    x$c0)),
-    times = unlist(lapply(data, function(x)
-      nrow(x$S))))
-  l_grid_bdiag <- unlist(lapply(data, function(x)
-    x$l_grid))
-  r_grid_bdiag <- unlist(lapply(data, function(x)
-    x$r_grid))
-  a_bdiag <- unlist(lapply(data, function(x)
-    x$a))
 
-  data_bdiag <-
-    new_ppdeconvFix(
-      N = N_bdiag,
-      Q = Q_bdiag,
-      P = P_bdiag,
-      S = S_bdiag,
-      c0 = c0_bdiag,
-      l_grid = l_grid_bdiag,
-      r_grid = r_grid_bdiag,
-      a = a_bdiag
-    )
-  return(data_bdiag)
+configure_idx <- function(x, mode) {
+  # Change default parameter idx's to reflect separate models
+  a_idx <- rep(1:length(x), times = unlist(lapply(x, function(y) length(y$a))))
+  par_idx <- 1:length(a_idx)
+  b_idx <- length(par_idx) + 1
+
+  for (i in 1:length(x)) {
+    x[[i]]$a_idx <- par_idx[i == a_idx]
+    if (mode == "variable") {
+      x[[i]]$b_idx <- b_idx
+    }
+  }
+
+  x
 }

@@ -14,7 +14,6 @@ ppdeconv <-
            data,
            mode = "fixed",
            method = "mle") {
-
     # Convert list of data to a list of ppdeconvFix or ppdeconvVar objects
     if (mode == "fixed") {
       data <- lapply(
@@ -24,23 +23,20 @@ ppdeconv <-
         }
       )
 
-      # Change default parameter idx's to reflect separate models
-      a_idx <-
-        rep(1:length(data), times = unlist(lapply(data, function(x) {
-          ncol(x$Q)
-        })))
-      par_idx <- 1:length(a_idx)
-      for (i in 1:length(data)) {
-        data[[i]]$a_idx <- par_idx[i == a_idx]
-
-      }
-    }
-    else if (mode == "variable") {
-      stop("mode 'variable' has not been implemented")
-    }
-    else{
+    } else if (mode == "variable") {
+      data <- lapply(
+        data,
+        FUN = function(x) {
+          do.call(new_ppdeconvVar, x)
+        }
+      )
+    } else{
       stop("mode must be either 'fixed' or 'variable'")
     }
+
+    # Reconfigure the idx to account for new list format
+    data <- configure_idx(data, mode = mode)
+
     if (method == "mle") {
 
       # Define the objective function and its gradient
@@ -55,11 +51,13 @@ ppdeconv <-
         data <- lapply(data, FUN = function(x) set_par(x, p))
         result <- lapply(data, FUN = function(x) get_gradient(x, p))
         rowSums(matrix(unlist(result), ncol = length(data)))
-      }
+
 
       # Set the initial parameter guess
-      if (is.null(a0)) {
-        a0 <- unlist(lapply(data, function(x) rep(0, ncol(x$Q))))
+      if (is.null(a0) & mode == "fixed") {
+        a0 <- unlist(lapply(data, function(x) rep(0, length(x$a))))
+      } else if (is.null(a0) & mode == "variable") {
+        a0 <- rep(0, max(unlist(lapply(data, function(x) x$b_idx))))
       }
 
       fit <- stats::optim(

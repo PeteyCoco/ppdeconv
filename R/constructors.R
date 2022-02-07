@@ -92,7 +92,7 @@ new_ppdeconvVar <- function(N = numeric(),
     a <- rep(0, length.out = ncol(Q))
   }
   a_idx <- 1:length(a)
-  b_idx <- 1:length(b)
+  b_idx <- max(a_idx) + 1:length(b)
 
   stopifnot(is.numeric(a))
   stopifnot(is.numeric(a_idx))

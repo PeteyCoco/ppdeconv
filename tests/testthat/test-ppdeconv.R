@@ -1,4 +1,4 @@
-test_that("MLE fit works with block diagonal matrices", {
+test_that("ppdeconv converges for a fixed mle example", {
   # Simulate one realization from the example intensity
   example <- example_hnorm(
     l_min = 0,
@@ -19,6 +19,30 @@ test_that("MLE fit works with block diagonal matrices", {
   data <- list(example, example)
 
   fit <- ppdeconv(a0 = NULL, data = data, mode = "fixed", method = "mle")
+
+  expect_equal(fit$convergence, 0)
+})
+
+test_that("ppdeconv converges for a variable mle example", {
+  # Simulate one realization from the example intensity
+  example <- example_exp(
+    l_min = 0,
+    l_max = 100,
+    l_wd = 0.5,
+    r_min = 0,
+    r_max = 100,
+    r_wd = 1,
+    height = 1000,
+    rate = 1/5,
+    df = 10,
+    c0 = 1,
+    M = NULL,
+  )
+
+  # Stack data into lists
+  data <- list(example, example)
+
+  fit <- ppdeconv(a0 = NULL, data = data, mode = "variable", method = "mle")
 
   expect_equal(fit$convergence, 0)
 })
