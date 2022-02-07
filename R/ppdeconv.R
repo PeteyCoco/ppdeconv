@@ -14,8 +14,6 @@ ppdeconv <-
            data,
            mode = "fixed",
            method = "mle") {
-    # Default fit NULL is returned in case of error
-    fit <- NULL
 
     # Convert list of data to a list of ppdeconvFix or ppdeconvVar objects
     if (mode == "fixed") {
@@ -36,10 +34,6 @@ ppdeconv <-
         data[[i]]$a_idx <- par_idx[i == a_idx]
 
       }
-
-      # Combine data into one block diagonal ppdeconvFix
-      data <- to_bdiag(data)
-
     }
     else if (mode == "variable") {
       stop("mode 'variable' has not been implemented")
@@ -48,23 +42,30 @@ ppdeconv <-
       stop("mode must be either 'fixed' or 'variable'")
     }
     if (method == "mle") {
+
       # Define the objective function and its gradient
+      # (I'm updating the parameters within each function to make sure
+      # that the most recent parameters are used in both functions)
       fn <- function(p) {
-        loglik(data, p)
+        data <- lapply(data, FUN = function(x) set_par(x, p))
+        result <- lapply(data, FUN = function(x) get_loglik(x, p))
+        sum(unlist(result))
       }
       gr <- function(p) {
-        gradient(data, p)
+        data <- lapply(data, FUN = function(x) set_par(x, p))
+        result <- lapply(data, FUN = function(x) get_gradient(x, p))
+        rowSums(matrix(unlist(result), ncol = length(data)))
       }
 
       # Set the initial parameter guess
       if (is.null(a0)) {
-        a0 <- rep(0, ncol(data$Q))
+        a0 <- unlist(lapply(data, function(x) rep(0, ncol(x$Q))))
       }
 
       fit <- stats::optim(
         par = a0,
         fn = fn,
-        gr = gr,
+        # gr = gr,
         method = "BFGS",
         control = list(fnscale = -1)
       )

@@ -16,3 +16,7 @@ loglik <- function(x, a) {
 
   return(as.numeric(ll))
 }
+
+get_loglik <- function(x, p){
+  loglik(x, p[x$a_idx])
+}

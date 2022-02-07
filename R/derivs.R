@@ -279,3 +279,9 @@ hessian.ppdeconvFix <- function(x,a) {
 
   return(result)
 }
+
+get_gradient <- function(x, p){
+  result <- rep(0, length.out = length(p))
+  result[x$a_idx] <- gradient(x, p[x$a_idx])
+  result
+}

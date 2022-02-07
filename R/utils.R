@@ -40,7 +40,7 @@ get_midpoints <- function(x_breaks, q = 1) {
 #'
 #' @examples
 #' # TODO
-to_bdiag <- function(data) {
+to_bdiag.ppdeconvFix <- function(data) {
   # Put data into block diagonal format
   N_bdiag <- unlist(lapply(data, function(x)
     x$N))
