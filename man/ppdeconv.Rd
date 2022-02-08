@@ -4,7 +4,7 @@
 \alias{ppdeconv}
 \title{Title}
 \usage{
-ppdeconv(a0 = NULL, data, mode = "fixed", method = "mle")
+ppdeconv(a0 = NULL, data, mode = "fixed", method = "mle", control = list())
 }
 \arguments{
 \item{a0}{an initial estimate for the parameter}

@@ -13,7 +13,8 @@ ppdeconv <-
   function(a0 = NULL,
            data,
            mode = "fixed",
-           method = "mle") {
+           method = "mle",
+           control = list()) {
     # If program doesn't work, return NULL
     fit <- NULL
 
@@ -90,7 +91,14 @@ ppdeconv <-
           fn = fn,
           gr = gr,
           method = "BFGS",
-          control = list(fnscale = -1)
+          control = c(list(fnscale = -1), control)
+        )
+
+        # Apply final estimate to the data
+        data <- lapply(
+          data,
+          FUN = function(x)
+            set_par(x, fit$par)
         )
 
       } else{
@@ -99,10 +107,19 @@ ppdeconv <-
           fn = fn,
           # gr = gr,
           method = "BFGS",
-          control = list(fnscale = -1)
+          control = c(list(fnscale = -1), control)
         )
 
+        # Apply final estimate to the data
+        data <- lapply(
+          data,
+          FUN = function(x)
+            set_par(x, fit$par)
+        )
       }
+
+
+
     } else if (method == "rmle") {
       stop("mode 'reml' has not been implemented")
     } else{
