@@ -81,13 +81,28 @@ ppdeconv <-
           x$b_idx))))
       }
 
-      fit <- stats::optim(
-        par = a0,
-        fn = fn,
-        # gr = gr,
-        method = "BFGS",
-        control = list(fnscale = -1)
-      )
+      # TEMPORARY
+      # Since gradients aren't implemented for ppdeconvVar yet,
+      # we have this if statement for each mode
+      if (mode == "fixed") {
+        fit <- stats::optim(
+          par = a0,
+          fn = fn,
+          gr = gr,
+          method = "BFGS",
+          control = list(fnscale = -1)
+        )
+
+      } else{
+        fit <- stats::optim(
+          par = a0,
+          fn = fn,
+          # gr = gr,
+          method = "BFGS",
+          control = list(fnscale = -1)
+        )
+
+      }
     } else if (method == "rmle") {
       stop("mode 'reml' has not been implemented")
     } else{
@@ -96,5 +111,5 @@ ppdeconv <-
 
     result <- list(data = data, fit = fit)
     class(result) <- "ppdeconvFit"
-    return(fit)
+    return(result)
   }

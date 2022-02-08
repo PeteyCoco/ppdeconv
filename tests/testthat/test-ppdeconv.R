@@ -18,9 +18,9 @@ test_that("ppdeconv converges for a fixed mle example", {
   # Stack data into lists
   data <- list(example, example)
 
-  fit <- ppdeconv(a0 = NULL, data = data, mode = "fixed", method = "mle")
+  result <- ppdeconv(a0 = NULL, data = data, mode = "fixed", method = "mle")
 
-  expect_equal(fit$convergence, 0)
+  expect_equal(result$fit$convergence, 0)
 })
 
 test_that("ppdeconv converges for a variable mle example", {
@@ -42,7 +42,7 @@ test_that("ppdeconv converges for a variable mle example", {
   # Stack data into lists
   data <- list(example, example)
 
-  fit <- ppdeconv(a0 = NULL, data = data, mode = "variable", method = "mle")
+  result <- ppdeconv(a0 = NULL, data = data, mode = "variable", method = "mle")
 
-  expect_equal(fit$convergence, 0)
+  expect_equal(result$fit$convergence, 0)
 })
