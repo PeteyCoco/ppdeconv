@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples #TODO
-ldot <- function(x,a) {
+ldot <- function(x, a) {
   UseMethod("ldot")
 }
 
@@ -22,7 +22,7 @@ ldot <- function(x,a) {
 #' @export
 #'
 #' @examples #TODO
-ldot.default <- function(x,a) {
+ldot.default <- function(x, a) {
   stop(paste0("There is no method ldot for objects of the class '", class(x), "'"))
 }
 
@@ -36,7 +36,7 @@ ldot.default <- function(x,a) {
 #' @importFrom Matrix t
 #'
 #' @examples #TODO
-ldot.ppdeconvFix <- function(x,a) {
+ldot.ppdeconvFix <- function(x, a) {
   la <- as.vector(exp(x$Q %*% a))
 
   ra <- as.vector(x$P %*% la)
@@ -90,7 +90,7 @@ sdot.default <- function(x, a) {
 #'
 #' @examples #TODO
 sdot.ppdeconvFix <- function(x, a) {
-  return(as.numeric((x$c0 * x$S) %*% a))
+  return(as.numeric(-(x$c0 * x$S) %*% a))
 }
 
 #' gradient for ppdeconv models
@@ -135,7 +135,7 @@ gradient.default <- function(x, a) {
 #'
 #' @examples #TODO
 gradient.ppdeconvFix <- function(x, a) {
-  result <- ldot(x, a) - sdot(x, a)
+  result <- ldot(x, a) + sdot(x, a)
 
   return(as.numeric(result))
 }
@@ -204,7 +204,7 @@ lddot.ppdeconvFix <- function(x, a) {
 #' @export
 #'
 #' @examples #TODO
-sddot <- function(x,a) {
+sddot <- function(x, a) {
   UseMethod("sddot")
 }
 
@@ -217,7 +217,7 @@ sddot <- function(x,a) {
 #' @export
 #'
 #' @examples #TODO
-sddot.default <- function(x,a) {
+sddot.default <- function(x, a) {
   stop(paste0("There is no method sddot for objects of the class '", class(x), "'"))
 }
 
@@ -230,8 +230,8 @@ sddot.default <- function(x,a) {
 #' @export
 #'
 #' @examples #TODO
-sddot <- function(x,a) {
-  return(x$c0 * x$S)
+sddot <- function(x, a) {
+  return(-x$c0 * x$S)
 }
 
 #' title
@@ -243,7 +243,7 @@ sddot <- function(x,a) {
 #' @export
 #'
 #' @examples #TODO
-hessian <- function(x,a) {
+hessian <- function(x, a) {
   UseMethod("hessian")
 }
 
@@ -256,7 +256,7 @@ hessian <- function(x,a) {
 #' @export
 #'
 #' @examples #TODO
-hessian.default <- function(x,a) {
+hessian.default <- function(x, a) {
   stop(paste0(
     "There is no method hessian for objects of the class '",
     class(x),
@@ -274,13 +274,13 @@ hessian.default <- function(x,a) {
 #' @export
 #'
 #' @examples #TODO
-hessian.ppdeconvFix <- function(x,a) {
-  result <- lddot(x,a) - sddot(x,a)
+hessian.ppdeconvFix <- function(x, a) {
+  result <- lddot(x, a) + sddot(x, a)
 
   return(result)
 }
 
-get_gradient <- function(x, p){
+get_gradient <- function(x, p) {
   result <- rep(0, length.out = length(p))
   result[x$a_idx] <- gradient(x, p[x$a_idx])
   result
