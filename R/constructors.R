@@ -70,6 +70,28 @@ new_ppdeconvFix <- function(N = numeric(),
   obj
 }
 
+#' Title
+#'
+#' @param N
+#' @param Q
+#' @param P
+#' @param S
+#' @param c0
+#' @param l_breaks
+#' @param r_breaks
+#' @param l_grid
+#' @param r_grid
+#' @param a
+#' @param a_idx
+#' @param b
+#' @param b_idx
+#' @param M
+#' @param P_fn
+#'
+#' @return
+#' @export
+#'
+#' @examples
 new_ppdeconvVar <- function(N = numeric(),
                             Q = matrix(nrow = 0, ncol = 0),
                             P = matrix(nrow = 0, ncol = 0),

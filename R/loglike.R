@@ -19,12 +19,12 @@ lfn <- function(x, a) {
   ra <- as.vector(x$P %*% la)
   li <- x$N * log(ra) - ra
   ll <- sum(li)
-  return(ll)
+  return(as.double(ll))
 }
 
 sfn <- function(x, a) {
   Ja <- -0.5 * t(a) %*% (x$c0 * x$S) %*% a
   la <- exp(x$Q %*% a)
   priors <- sum(x$M * log(la) - la, na.rm = TRUE)
-  return(Ja + priors)
+  return(as.double(Ja + priors))
 }
