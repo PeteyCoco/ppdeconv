@@ -15,7 +15,8 @@ new_ppdeconvFix(
   l_grid = numeric(),
   r_grid = numeric(),
   a = NULL,
-  a_idx = NULL
+  a_idx = NULL,
+  M = NULL
 )
 }
 \arguments{

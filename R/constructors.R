@@ -26,7 +26,8 @@ new_ppdeconvFix <- function(N = numeric(),
                             l_grid = numeric(),
                             r_grid = numeric(),
                             a = NULL,
-                            a_idx = NULL) {
+                            a_idx = NULL,
+                            M = NULL) {
   stopifnot(is.numeric(N))
   stopifnot(is.matrix(Q) | class(Q) == "dgCMatrix")
   stopifnot(is.matrix(P) | class(Q) == "dgCMatrix")
@@ -45,6 +46,10 @@ new_ppdeconvFix <- function(N = numeric(),
   stopifnot(is.numeric(a))
   stopifnot(is.numeric(a_idx))
 
+  if (is.null(M)) {
+    M <- rep(NA, times = length(l_grid))
+  }
+  stopifnot(length(M) == length(l_grid))
 
   obj <- list()
   obj$N <- N
@@ -58,6 +63,7 @@ new_ppdeconvFix <- function(N = numeric(),
   obj$r_grid <- r_grid
   obj$a <- a
   obj$a_idx <- a_idx
+  obj$M <- M
 
   class(obj) <- "ppdeconvFix"
 
@@ -77,6 +83,7 @@ new_ppdeconvVar <- function(N = numeric(),
                             a_idx = NULL,
                             b,
                             b_idx = NULL,
+                            M = NULL,
                             P_fn) {
   stopifnot(is.numeric(N))
   stopifnot(is.matrix(Q) | class(Q) == "dgCMatrix")
@@ -98,6 +105,12 @@ new_ppdeconvVar <- function(N = numeric(),
   stopifnot(is.numeric(a_idx))
   stopifnot(is.numeric(b))
   stopifnot(is.numeric(b_idx))
+
+  if (is.null(M)) {
+    M <- rep(NA, times = length(l_grid))
+  }
+  stopifnot(length(M) == length(l_grid))
+
   stopifnot(is.function(P_fn))
 
   obj <- list()
@@ -114,6 +127,7 @@ new_ppdeconvVar <- function(N = numeric(),
   obj$a_idx <- a_idx
   obj$b <- b
   obj$b_idx <- b_idx
+  obj$M <- M
   obj$P_fn <- P_fn
 
   class(obj) <- "ppdeconvVar"

@@ -24,5 +24,7 @@ lfn <- function(x, a) {
 
 sfn <- function(x, a) {
   Ja <- -0.5 * t(a) %*% (x$c0 * x$S) %*% a
-  return(Ja)
+  la <- exp(x$Q %*% a)
+  priors <- sum(x$M * log(la) - la, na.rm = TRUE)
+  return(Ja + priors)
 }
