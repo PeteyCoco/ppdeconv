@@ -90,7 +90,7 @@ sdot.default <- function(x, a) {
 #'
 #' @examples #TODO
 sdot.ppdeconvFix <- function(x, a) {
-  return(as.numeric(-(x$c0 * x$S) %*% a))
+  return(as.vector(-(x$c0 * x$S) %*% a))
 }
 
 #' gradient for ppdeconv models
@@ -137,7 +137,7 @@ gradient.default <- function(x, a) {
 gradient.ppdeconvFix <- function(x, a) {
   result <- ldot(x, a) + sdot(x, a)
 
-  return(as.numeric(result))
+  return(as.vector(result))
 }
 
 #' Title
