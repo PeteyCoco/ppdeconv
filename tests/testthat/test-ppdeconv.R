@@ -37,6 +37,7 @@ test_that("ppdeconv converges for a variable mle example", {
     df = 10,
     c0 = 1,
     M = NULL,
+    seed = 21
   )
 
   # Stack data into lists

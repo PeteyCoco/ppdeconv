@@ -156,3 +156,14 @@ new_ppdeconvVar <- function(N = numeric(),
 
   obj
 }
+
+new_ppdeconvList <- function(x){
+  if (!all(vapply(x, function(y)
+    class(y) %in% c("ppdeconvFix", "ppdeconvVar"),
+    logical(1)))) {
+    stop("List elements must be of type `ppdeconvFix` or `ppdeconvVar`.")
+  }
+  obj <- x
+  class(obj) <- "ppdeconvList"
+  obj
+}
