@@ -51,19 +51,20 @@ new_ppdeconvFix <- function(N = numeric(),
   }
   stopifnot(length(M) == length(l_grid))
 
-  obj <- list()
-  obj$N <- N
-  obj$Q <- Q
-  obj$P <- P
-  obj$S <- S
-  obj$c0 <- c0
-  obj$l_breaks <- l_breaks
-  obj$r_breaks <- r_breaks
-  obj$l_grid <- l_grid
-  obj$r_grid <- r_grid
-  obj$a <- a
-  obj$a_idx <- a_idx
-  obj$M <- M
+  obj <- list(
+    N = N,
+    Q = Q,
+    P = P,
+    S = S,
+    c0 = c0,
+    l_breaks = l_breaks,
+    r_breaks = r_breaks,
+    l_grid = l_grid,
+    r_grid = r_grid,
+    a = a,
+    a_idx = a_idx,
+    M = M
+  )
 
   class(obj) <- "ppdeconvFix"
 
@@ -135,33 +136,34 @@ new_ppdeconvVar <- function(N = numeric(),
 
   stopifnot(is.function(P_fn))
 
-  obj <- list()
-  obj$N <- N
-  obj$Q <- Q
-  obj$P <- P
-  obj$S <- S
-  obj$c0 <- c0
-  obj$l_breaks <- l_breaks
-  obj$r_breaks <- r_breaks
-  obj$l_grid <- l_grid
-  obj$r_grid <- r_grid
-  obj$a <- a
-  obj$a_idx <- a_idx
-  obj$b <- b
-  obj$b_idx <- b_idx
-  obj$M <- M
-  obj$P_fn <- P_fn
+  obj <- list(
+    N = N,
+    Q = Q,
+    P = P,
+    S = S,
+    c0 = c0,
+    l_breaks = l_breaks,
+    r_breaks = r_breaks,
+    l_grid = l_grid,
+    r_grid = r_grid,
+    a = a,
+    a_idx = a_idx,
+    b = b,
+    b_idx = b_idx,
+    M = M,
+    P_fn = P_fn
+  )
 
-  class(obj) <- "ppdeconvVar"
+  class(obj) <- c("ppdeconvVar", "ppdeconvFix")
 
   obj
 }
 
 new_ppdeconvList <- function(x){
   if (!all(vapply(x, function(y)
-    class(y) %in% c("ppdeconvFix", "ppdeconvVar"),
+    "ppdeconvFix" %in% class(y),
     logical(1)))) {
-    stop("List elements must be of type `ppdeconvFix` or `ppdeconvVar`.")
+    stop("List elements must be of type `ppdeconvFix`")
   }
   obj <- x
   class(obj) <- "ppdeconvList"

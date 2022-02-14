@@ -25,7 +25,7 @@ test_that("output dimensions are correct", {
     M = M,
   )
 
-  expect_equal(class(result), "ppdeconvVar")
+  expect_true("ppdeconvVar" %in% class(result))
   expect_length(result$N, 100)
   expect_equal(dim(result$P), c(100, 200))
   expect_equal(dim(result$Q), c(200, 10))
@@ -64,7 +64,7 @@ test_that("example_P works when M = NULL", {
     M = M
   )
 
-  expect_equal(class(result), "ppdeconvVar")
+  expect_true("ppdeconvVar" %in% class(result))
   expect_length(result$N, 100)
   expect_equal(dim(result$P), c(100, 200))
   expect_equal(dim(result$Q), c(200, 10))
