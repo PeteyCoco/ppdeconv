@@ -46,11 +46,6 @@ ppdeconv <-
       # (I'm updating the parameters within each function to make sure
       # that the most recent parameters are used in both functions)
       fn <- function(p) {
-        data <- lapply(
-          data,
-          FUN = function(x)
-            set_par(x, p)
-        )
         result <- lapply(
           data,
           FUN = function(x)
@@ -59,11 +54,6 @@ ppdeconv <-
         sum(unlist(result))
       }
       gr <- function(p) {
-        data <- lapply(
-          data,
-          FUN = function(x)
-            set_par(x, p)
-        )
         result <- lapply(
           data,
           FUN = function(x)
