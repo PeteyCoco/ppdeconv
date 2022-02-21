@@ -87,6 +87,7 @@ sdot.default <- function(x, a) {
 #'
 #' @return
 #' @export
+#' @importFrom Matrix colSums
 #'
 #' @examples #TODO
 sdot.ppdeconvFix <- function(x, a) {

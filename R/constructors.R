@@ -14,6 +14,7 @@
 #'
 #' @return a `ppdeconvFix` object
 #' @export
+#' @importFrom Matrix Matrix
 #'
 #' @examples #TODO
 new_ppdeconvFix <- function(N = numeric(),
@@ -53,8 +54,8 @@ new_ppdeconvFix <- function(N = numeric(),
 
   obj <- list(
     N = N,
-    Q = Q,
-    P = P,
+    Q = Matrix(Q, sparse = T),
+    P = Matrix(P, sparse = T),
     S = S,
     c0 = c0,
     l_breaks = l_breaks,
