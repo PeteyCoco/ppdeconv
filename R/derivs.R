@@ -33,7 +33,7 @@ ldot.default <- function(x, a) {
 #'
 #' @return the gradient of the log-likelihood
 #' @export
-#' @importFrom Matrix t
+#' @importFrom Matrix Diagonal
 #'
 #' @examples #TODO
 ldot.ppdeconvObj <- function(x, a) {
@@ -41,15 +41,9 @@ ldot.ppdeconvObj <- function(x, a) {
 
   ra <- as.vector(x$P %*% la)
 
-  Pt <- x$P / ra
+  ldot_i <- Diagonal(x = x$N/ra - 1) %*% x$P %*% Diagonal(x = la) %*% x$Q
 
-  W <- la * t(Pt)
-
-  yra_W <- t((x$N - ra) * t(W))
-
-  ldot_i <- t(x$Q) %*% yra_W
-
-  return(Matrix::rowSums(ldot_i))
+  return(Matrix::colSums(ldot_i))
 }
 
 #' gradient of the penalty term
