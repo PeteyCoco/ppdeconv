@@ -5,7 +5,7 @@
 \title{ppdeconv Object}
 \usage{
 new_ppdeconvObj(
-  N = numeric(),
+  N = numeric(0),
   Q = matrix(nrow = 0, ncol = 0),
   P_fn,
   S = matrix(nrow = 0, ncol = 0),

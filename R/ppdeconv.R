@@ -1,7 +1,7 @@
 #' Title
 #'
 #' @param a0 an initial estimate for the parameter
-#' @param data a list containing the data for `pdeconv`. See details.
+#' @param x a list containing the data for `pdeconv`. See details.
 #' @param mode a string indicating what type of inference to perform.
 #'
 #' @return a model fit object
@@ -10,113 +10,49 @@
 #' @examples
 #' # TODO
 ppdeconv <-
-  function(a0 = NULL,
-           data,
-           mode = "fixed",
+  function(x,
+           a0 = NULL,
            method = "mle",
            control = list()) {
     # If program doesn't work, return NULL
     fit <- NULL
 
-    # Convert list of data to a list of ppdeconvFix or ppdeconvVar objects
-    if (mode == "fixed") {
-      data <- lapply(
-        data,
-        FUN = function(x) {
-          do.call(new_ppdeconvFix, x)
-        }
-      )
-
-    } else if (mode == "variable") {
-      data <- lapply(
-        data,
-        FUN = function(x) {
-          do.call(new_ppdeconvVar, x)
-        }
-      )
-    } else{
-      stop("mode must be either 'fixed' or 'variable'")
-    }
-
-    # Reconfigure the idx to account for new list format
-    data <- configure_idx(data, mode = mode)
+    # Combine data into a single ppdeconvObj
+    x <- format_bdiag(x)
 
     if (method == "mle") {
       # Define the objective function and its gradient
       # (I'm updating the parameters within each function to make sure
       # that the most recent parameters are used in both functions)
       fn <- function(p) {
-        result <- lapply(
-          data,
-          FUN = function(x)
-            get_loglik(x, p)
-        )
-        sum(unlist(result))
+        get_loglik(x, p)
       }
       gr <- function(p) {
-        result <- lapply(
-          data,
-          FUN = function(x)
-            get_gradient(x, p)
-        )
-        rowSums(matrix(unlist(result), ncol = length(data)))
+        get_gradient(x, p)
       }
-
 
       # Set the initial parameter guess
-      if (is.null(a0) & mode == "fixed") {
-        a0 <- unlist(lapply(data, function(x)
-          rep(0, length(x$a))))
-      } else if (is.null(a0) & mode == "variable") {
-        a0 <- rep(0, max(unlist(lapply(data, function(x)
-          x$b_idx))))
+      if (is.null(a0)) {
+        a0 <- rep(0, length(x$p))
       }
 
-      # TEMPORARY
-      # Since gradients aren't implemented for ppdeconvVar yet,
-      # we have this if statement for each mode
-      if (mode == "fixed") {
-        fit <- stats::optim(
-          par = a0,
-          fn = fn,
-          gr = gr,
-          method = "BFGS",
-          control = c(list(fnscale = -1), control)
-        )
+      fit <- stats::optim(
+        par = a0,
+        fn = fn,
+        gr = gr,
+        method = "BFGS",
+        control = c(list(fnscale = -1), control)
+      )
 
-        # Apply final estimate to the data
-        data <- lapply(
-          data,
-          FUN = function(x)
-            set_par(x, fit$par)
-        )
-
-      } else{
-        fit <- stats::optim(
-          par = a0,
-          fn = fn,
-          # gr = gr,
-          method = "BFGS",
-          control = c(list(fnscale = -1), control)
-        )
-
-        # Apply final estimate to the data
-        data <- lapply(
-          data,
-          FUN = function(x)
-            set_par(x, fit$par)
-        )
-      }
-
-
-
+      # Apply final estimate to the data
+      x$p <- fit$par
     } else if (method == "rmle") {
       stop("mode 'reml' has not been implemented")
     } else{
       stop("mode must be either 'mle' or 'reml'")
     }
 
-    result <- list(data = data, fit = fit)
+    result <- list(data = x, fit = fit)
     class(result) <- "ppdeconvFit"
     return(result)
   }
