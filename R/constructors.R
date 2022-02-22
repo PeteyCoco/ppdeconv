@@ -17,7 +17,7 @@
 #' @importFrom Matrix Matrix
 #'
 #' @examples #TODO
-new_ppdeconvObj <- function(N = numeric(),
+new_ppdeconvObj <- function(N = numeric(0),
                             Q = matrix(nrow = 0, ncol = 0),
                             P_fn,
                             S = matrix(nrow = 0, ncol = 0),
