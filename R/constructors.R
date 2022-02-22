@@ -40,6 +40,7 @@ new_ppdeconvObj <- function(N = numeric(),
   stopifnot(is.numeric(r_grid))
 
   a_idx <- 1:ncol(Q)
+  b_idx <- max(a_idx) + b_idx
 
   stopifnot(is.numeric(a_idx))
 

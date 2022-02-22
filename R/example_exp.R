@@ -59,30 +59,26 @@ example_exp <-
     Q <- smooth[[1]]$X
     S <- smooth[[1]]$S[[1]]
 
-    P <- P_exp(l_breaks = l_breaks,
-               r_breaks = r_breaks,
-               rate = rate)
-
     # Define the function to compute new P
-    P_fn <- function(x){
-      P_exp(l_breaks = x$l_breaks,
-            r_breaks = x$r_breaks,
-            rate = exp(x$b))
+    P_fn <- function(b){
+      P_exp(l_breaks = l_breaks,
+            r_breaks = r_breaks,
+            rate = exp(b))
     }
 
     return(
-      new_ppdeconvVar(
+      new_ppdeconvObj(
         N = N,
         Q = Q,
-        P = P,
+        P_fn = P_fn,
         S = S,
         c0 = c0,
         l_breaks = l_breaks,
         r_breaks = r_breaks,
         l_grid = l_grid,
         r_grid = r_grid,
-        P_fn = P_fn,
-        b = 0
+        b_idx = 1,
+        p = c(rep(0, ncol(Q)), rate)
       )
     )
   }
