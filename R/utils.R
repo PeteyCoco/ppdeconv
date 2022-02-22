@@ -29,6 +29,35 @@ get_midpoints <- function(x_breaks, q = 1) {
   return(mid)
 }
 
+#' Title
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#' @importFrom Matrix bdiag
+#'
+#' @examples
+format_bdiag <- function(x){
+
+  # Combine each ppdeconv into a bdiag format
+  args <- list(
+    N = unlist(lapply(x, function(y) y$N)),
+    Q = do.call(bdiag, lapply(x, function(y) y$Q)),
+    S = do.call(bdiag, lapply(x, function(y) y$S)),
+    P_fn = function(b) do.call(bdiag, lapply(x, function(y) y$P_fn(b))),
+    c0 = rep(vapply(x, function(y) y$c0, numeric(1)),
+                    times = vapply(x, function(y) ncol(y$S), numeric(1))),
+    l_breaks = unlist(lapply(x, function(y) y$l_breaks)),
+    l_grid = unlist(lapply(x, function(y) y$l_grid)),
+    r_breaks = unlist(lapply(x, function(y) y$r_breaks)),
+    r_grid = unlist(lapply(x, function(y) y$r_grid)),
+    p = unlist(lapply(x, function(y) y$p)),
+    M = unlist(lapply(x, function(y) y$M))
+  )
+
+  do.call(new_ppdeconvObj, args)
+}
 
 configure_idx <- function(x, mode) {
   # Change default parameter idx's to reflect separate models

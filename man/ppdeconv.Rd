@@ -4,12 +4,12 @@
 \alias{ppdeconv}
 \title{Title}
 \usage{
-ppdeconv(a0 = NULL, data, mode = "fixed", method = "mle", control = list())
+ppdeconv(x, a0 = NULL, method = "mle", control = list())
 }
 \arguments{
-\item{a0}{an initial estimate for the parameter}
+\item{x}{a list containing the data for \code{pdeconv}. See details.}
 
-\item{data}{a list containing the data for \code{pdeconv}. See details.}
+\item{a0}{an initial estimate for the parameter}
 
 \item{mode}{a string indicating what type of inference to perform.}
 }

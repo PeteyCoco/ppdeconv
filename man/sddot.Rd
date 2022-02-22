@@ -9,7 +9,7 @@ sddot(x, a)
 sddot(x, a)
 }
 \arguments{
-\item{x}{a \code{ppdeconvFix} object}
+\item{x}{a \code{ppdeconvObj} object}
 
 \item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
@@ -21,7 +21,7 @@ the hessian of the penalty term
 \description{
 Title
 
-hessian for the penalty term of \code{ppdeconvFix} objects
+hessian for the penalty term of \code{ppdeconvObj} objects
 }
 \examples{
 #TODO

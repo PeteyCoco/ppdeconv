@@ -7,7 +7,7 @@
 sdot(x, a)
 }
 \arguments{
-\item{x}{a \code{ppdeconvFix} or \code{ppdeconvVar} object}
+\item{x}{a \code{ppdeconvObj} or \code{ppdeconvVar} object}
 
 \item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }

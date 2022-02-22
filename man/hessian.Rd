@@ -7,7 +7,7 @@
 hessian(x, a)
 }
 \arguments{
-\item{x}{a \code{ppdeconvFix} object}
+\item{x}{a \code{ppdeconvObj} object}
 
 \item{a}{a parameter vector with length(a) = ncol(x$Q)}
 }
