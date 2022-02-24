@@ -20,6 +20,25 @@ example_lambda <- function(x, height) {
               0.4 * stats::dnorm(x, mean = 70, sd = 10))
 }
 
+#' Title
+#'
+#' @param l_min
+#' @param l_max
+#' @param l_wd
+#' @param r_min
+#' @param r_max
+#' @param r_wd
+#' @param sd
+#' @param df
+#' @param c0
+#' @param height
+#' @param M
+#' @param seed
+#'
+#' @return
+#' @export
+#'
+#' @examples
 example_hnorm <-
   function(l_min,
            l_max,

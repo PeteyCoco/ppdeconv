@@ -1,3 +1,22 @@
+#' Title
+#'
+#' @param l_min
+#' @param l_max
+#' @param l_wd
+#' @param r_min
+#' @param r_max
+#' @param r_wd
+#' @param rate
+#' @param df
+#' @param c0
+#' @param height
+#' @param M
+#' @param seed
+#'
+#' @return
+#' @export
+#'
+#' @examples
 example_exp <-
   function(l_min,
            l_max,
